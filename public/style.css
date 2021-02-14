@@ -82,3 +82,16 @@ nav {
     width: 80%;
     length: 400px;
 }
+h1 {
+    text-align: center;
+}
+
+p{
+    margin-top: 1000px;
+}
+#credit{
+    margin-top: 330px;
+}
+#source{
+    margin-top: 20px;
+}
