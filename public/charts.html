@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js'></script>
+    <title>Document</title>
+</head>
+<body>
+    <h6>Number of Individuals fully vaccinated:<span id="totalFV"></span></h6>
+    <canvas id='myChartV' width='800' height='400'></canvas>
+    <h6>Cumulative cases reported in Ontario:<span id="totalCS"></span></h6>
+    <canvas id='myChartC' width='800' height='400'></canvas>
+
+    <script>
+
+        var totalVacc=0; 
+        var totalCS=0;   
+        const covidURL='https://api.opencovid.ca/summary?loc=ON&after=01-01-2021' 
+
+        chartItV();
+        chartItC();
+        async function chartItC() {
+            const data = await getCaseData();
+            const ctx = document.getElementById('myChartC').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.dateAdmin,
+                    datasets: [{
+                        label: 'Daily COVID-19 active cases admistered in Ontario',
+                        data: data.cases,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: { scales: {   yAxes: [{    ticks: {
+                                callback: function(value, index, values) {
+                                    return value ;
+                                }    }  }]  } }    });
+        }
+        async function chartItV() {
+            const data = await getVaccData();
+            const ctx = document.getElementById('myChartV').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.dateAdmin,
+                    datasets: [{
+                        label: 'Daily COVID-19 Vaccine doses admistered in Ontario',
+                        data: data.aVacc,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: { scales: {   yAxes: [{    ticks: {
+                                callback: function(value, index, values) {
+                                    return value ;
+                                }    }  }]  } }    });
+        }
+        
+        async function getVaccData(){
+            var aVacc=[];
+            var dateAdmin=[];
+            var temp;
+            const response = await fetch(covidURL);
+            const data = await response.json();
+            console.log(data.summary);
+            for (var i=0; i< data.summary.length;i++)
+            {
+                temp=data.summary[i].date;
+                aVacc.push(data.summary[i].avaccine);
+                dateAdmin.push(formatMonth(temp));        
+                document.getElementById('totalFV').textContent=data.summary[i].cumulative_cvaccine;
+            }
+            return { aVacc, dateAdmin };
+        }
+        async function getCaseData(){
+            var cases=[];
+            var dateAdmin=[];
+            var temp;
+            const response = await fetch(covidURL);
+            const data = await response.json();
+            console.log(data.summary);
+            for (var i=0; i< data.summary.length;i++)
+            {
+                temp=data.summary[i].date;
+                cases.push(data.summary[i].active_cases);
+                dateAdmin.push(formatMonth(temp));        
+                document.getElementById('totalCS').textContent=data.summary[i].cumulative_cases;
+            }
+            return { cases, dateAdmin };
+
+        }   
+        function formatMonth(str){
+            var month;
+            switch (str.charAt(3)+str.charAt(4))
+            {
+                case "01": month= "Jan"; break;
+                case "02": month= "Feb"; break;
+                case "03": month= "Mar"; break;
+                case "04": month= "April"; break;
+                case "05": month= "May"; break;
+                case "06": month= "June"; break;
+                case "07": month= "July"; break;
+                case "08": month= "Aug"; break; 
+                case "09": month= "Sept"; break;
+                case "10": month= "Oct"; break;
+                case "11": month= "Nov"; break;
+                case "12": month= "Dec"; break;
+            }
+            return month+" "+str.charAt(0)+str.charAt(1);
+        }
+    </script>
+</body>
+</html>
