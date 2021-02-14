@@ -4,19 +4,36 @@
 <head>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/leaflet.js"></script>
     <style>
         #map {
             position: absolute;
-            top: 0;
+            top: 15%;
             right: 0;
             bottom: 0;
-            left: 0;
+            left: 10%;
         }
     </style>
 </head>
 
 <body>
+       <!-- Navigation Bar -->
+ <nav>
+    <div class="logo">
+        <h1> Covid-19 Ontario </h1>
+    </div>
+    <ul class="nav-links">
+        <li><a href="index.html"> Statistics </a></li>
+        <li><a href="map.html"> Assesment Locations </a></li>
+        <li><a href="info.html"> Vaccine Information</a></li>
+    </ul>
+    <div class="burger">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+    </div>
+</nav>
     <div id="map"></div>
     <p><a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a
             href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a></p>

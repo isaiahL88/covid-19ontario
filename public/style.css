@@ -74,3 +74,11 @@ nav {
 #div1 {
  background-color: #CDCDCD;
 }
+
+#map{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+    length: 400px;
+}
