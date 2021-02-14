@@ -1,74 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="style.css" />
     <script src='https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <title>Fetch and Graphing</title>
+    <title>Document</title>
 </head>
-
 <body>
-    <canvas id='myChart' width='800' height='400'></canvas>
+    <!-- Navigation Bar -->
+ <nav>
+    <div class="logo">
+        <h1> Covid-19 Ontario </h1>
+    </div>
+    <ul class="nav-links">
+        <li><a href="index.html"> Statistics </a></li>
+        <li><a href="info.html"> Vaccine Information</a></li>
+    </ul>
+    <div class="burger">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+    </div>
+</nav>
 
+<div id="div1" class="d-flex justify-content-between">
+    <div class="left">
+    <h6 id="totalV">Number of Individuals fully vaccinated: <span id="totalFV"></span></h6>
+    <canvas id='myChartV' width='900' height='500'></canvas>
+    </div>
+    <div class="right">
+    <h6 id="totalC">Cumulative cases reported in Ontario: <span id="totalCS"></span></h6>
+    <canvas id='myChartC' width='900' height='500'></canvas>
+    </div>
+</div>
     <script>
-        //data from https://data.giss.nasa.gov/gistemp/
-        //using https://github.com/CodingTrain/Intro-to-Data-APIs-JS
-        chartIt();
 
-        async function chartIt() {
-            const data = await getData();
-            const ctx = document.getElementById('myChart').getContext('2d');
+        var totalVacc=0; 
+        var totalCS=0;   
+        const covidURL='https://api.opencovid.ca/summary?loc=ON&after=01-01-2021' 
+
+        chartItV();
+        chartItC();
+        async function chartItC() {
+            const data = await getCaseData();
+            const ctx = document.getElementById('myChartC').getContext('2d');
             const myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: data.xs,
+                    labels: data.dateAdmin,
                     datasets: [{
-                        label: 'Global Average Temperature in C°',
-                        data: data.ys,
-                        fill: false,
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
+                        label: 'Daily COVID-19 active cases admistered in Ontario',
+                        data: data.cases,
+                        backgroundColor: '#007CC7',
+                        borderColor: '#4DA8DA',
+                        borderWidth: 1,
                     }]
                 },
                 options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
+                    scales: {   yAxes: [{    ticks: {
                                 callback: function(value, index, values) {
-                                    return value + "°";
-                                }
-                            }
-                        }]
-                    }
-                }
-
-            });
+                                    return value ;
+                                }    }  }]  } }    });
         }
+        async function chartItV() {
+            const data = await getVaccData();
+            const ctx = document.getElementById('myChartV').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.dateAdmin,
+                    datasets: [{
+                        label: 'Daily COVID-19 Vaccine doses admistered in Ontario',
+                        data: data.aVacc,
+                        backgroundColor: '#007CC7',
+                        borderColor: '#4DA8DA',
+                        borderWidth: 1
+                    }]
+                },
+                options: { scales: {   yAxes: [{    ticks: {
+                                callback: function(value, index, values) {
+                                    return value ;
+                                }    }  }]  } }    });
+        }
+        
+        async function getVaccData(){
+            var aVacc=[];
+            var dateAdmin=[];
+            var temp;
+            const response = await fetch(covidURL);
+            const data = await response.json();
+            console.log(data.summary);
+            for (var i=0; i< data.summary.length;i++)
+            {
+                temp=data.summary[i].date;
+                aVacc.push(data.summary[i].avaccine);
+                dateAdmin.push(formatMonth(temp));        
+                document.getElementById('totalFV').textContent=data.summary[i].cumulative_cvaccine;
+            }
+            return { aVacc, dateAdmin };
+        }
+        async function getCaseData(){
+            var cases=[];
+            var dateAdmin=[];
+            var temp;
+            const response = await fetch(covidURL);
+            const data = await response.json();
+            console.log(data.summary);
+            for (var i=0; i< data.summary.length;i++)
+            {
+                temp=data.summary[i].date;
+                cases.push(data.summary[i].active_cases);
+                dateAdmin.push(formatMonth(temp));        
+                document.getElementById('totalCS').textContent=data.summary[i].cumulative_cases;
+            }
+            return { cases, dateAdmin };
 
-        async function getData() {
-            const xs = [];
-            const ys = [];
-            const response = await fetch('mainData.csv');
-            const data = await response.text();
-            console.log();
-
-            //paarsing the data 
-            const rows = data.split("\n").slice(1);
-            rows.forEach(row => {
-                const elements = row.split(',');
-                const year = elements[0];
-                //adding labels to chart
-                xs.push(year);
-                const temp = elements[1];
-                ys.push(parseFloat(temp) + 14);
-                console.log(year, temp);
-            })
-            //returns an object with xs and ys
-            return {xs, ys};
+        }   
+        function formatMonth(str){
+            var month;
+            switch (str.charAt(3)+str.charAt(4))
+            {
+                case "01": month= "Jan"; break;
+                case "02": month= "Feb"; break;
+                case "03": month= "Mar"; break;
+                case "04": month= "April"; break;
+                case "05": month= "May"; break;
+                case "06": month= "June"; break;
+                case "07": month= "July"; break;
+                case "08": month= "Aug"; break; 
+                case "09": month= "Sept"; break;
+                case "10": month= "Oct"; break;
+                case "11": month= "Nov"; break;
+                case "12": month= "Dec"; break;
+            }
+            return month+" "+str.charAt(0)+str.charAt(1);
         }
     </script>
 </body>
+</html>

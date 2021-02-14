@@ -1,0 +1,76 @@
+body{
+    background-color: #CDCDCD;
+    font-family: 'Lucida Bright';
+    margin: 0%;
+}
+/* Navigation Bar Styling */
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 8vh;
+    font-family: 'Lucida Bright';
+    background-color:  #203647;
+    margin-bottom: 20px;
+}
+.logo h1{
+    font-family: 'Lucida Bright';
+    color: #EEFBFB;
+}
+.nav-links {
+    display: flex;
+    justify-content: space-around;
+    width: 40%;
+}
+
+.nav-links a{
+    font-family: 'Lucida Bright';
+    color: #EEFBFB;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-links li{
+    list-style: none;
+}
+
+.burger {
+    display: none;
+}
+
+.burger div{
+    width: 25px;
+    height: 3px;
+    border-radius: 2px;
+    background-color: rgb(187, 187, 187);
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+@keyframes navLinkFade{
+    from{
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to{
+        opacity: 1;
+        transform: translate(0px);
+    }
+}
+
+.toggle .line1{
+    transform: rotate(-45deg) translate(-5px,6px);
+}
+
+.toggle .line2{
+    opacity: 0;
+}
+
+.toggle .line3{
+    transform: rotate(45deg) translate(-5px,-6px);
+}
+
+/* Canvas Styling */
+#div1 {
+ background-color: #CDCDCD;
+}
