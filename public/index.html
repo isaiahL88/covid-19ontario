@@ -1,147 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" href="style.css" />
     <script src='https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js'></script>
     <title>Covid-19 Ontario</title>
 </head>
+
 <body>
     <!-- Navigation Bar -->
- <nav>
-    <div class="logo">
-        <h1> Covid-19 Ontario </h1>
-    </div>
-    <ul class="nav-links">
-        <li><a href="index.html"> Statistics </a></li>
-        <li><a href="map.html"> Assesment Locations </a></li>
-        <li><a href="info.html"> Vaccine Information</a></li>
-    </ul>
-    <div class="burger">
-        <div class="line1"></div>
-        <div class="line2"></div>
-        <div class="line3"></div>
-    </div>
-</nav>
+    <nav>
+        <div class="logo">
+            <h1> Covid-19 Ontario </h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"> Statistics </a></li>
+            <li><a href="map.html"> Assesment Locations </a></li>
+            <li><a href="info.html"> Vaccine Information</a></li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
 
-<div id="div1" class="d-flex justify-content-between">
-    <div class="left">
-    <h6 id="totalV">Number of Individuals fully vaccinated: <span id="totalFV"></span></h6>
-    <canvas id='myChartV' width='900' height='500'></canvas>
+    <div class="main_graphs">
+        <div class="graph">
+            <label>
+                <h6 id="totalV">Daily Tests in Ontario<span id="totalFV"></span></h6>
+            </label>
+            <div class="chartV-container">
+                <canvas id='myChartT' width='900' height='500'></canvas>
+            </div>
+        </div>
+        <div class="graph">
+            <label class="graph-labels">
+                <h6 id="totalC">Daily Cases in Ontario<span id="totalCS"></span></h6>
+            </label>
+            <div class="chartC-container">
+                <canvas id='myChartC' width='900' height='500'></canvas>
+            </div>
+        </div>
+        <br />
+        <div class="credit">
+            <p id="credit">© Created by Isaiah Linares, Leong Li, Chun-Kit Chung</p>
+            <p id="source">Data sourced from https://opencovid.ca/api/</p>
+        </div>
     </div>
-    <div class="right">
-    <h6 id="totalC">Cumulative cases reported in Ontario: <span id="totalCS"></span></h6>
-    <canvas id='myChartC' width='900' height='500'></canvas>
-    </div>
-</div>
-<p id="credit">© Created by Isaiah Linares, Leong Li, Chun-Kit Chung</p>
-<p id="source">Data sourced from https://opencovid.ca/api/</p>
-    <script>
-
-        var totalVacc=0; 
-        var totalCS=0;   
-        const covidURL='https://api.opencovid.ca/summary?loc=ON&after=01-01-2021' 
-
-        chartItV();
-        chartItC();
-        async function chartItC() {
-            const data = await getCaseData();
-            const ctx = document.getElementById('myChartC').getContext('2d');
-            const myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: data.dateAdmin,
-                    datasets: [{
-                        label: 'Daily COVID-19 active cases admistered in Ontario',
-                        data: data.cases,
-                        backgroundColor: '#007CC7',
-                        borderColor: '#4DA8DA',
-                        borderWidth: 1,
-                    }]
-                },
-                options: {
-                    scales: {   yAxes: [{    ticks: {
-                                callback: function(value, index, values) {
-                                    return value ;
-                                }    }  }]  } }    });
-        }
-        async function chartItV() {
-            const data = await getVaccData();
-            const ctx = document.getElementById('myChartV').getContext('2d');
-            const myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: data.dateAdmin,
-                    datasets: [{
-                        label: 'Daily COVID-19 Vaccine doses admistered in Ontario',
-                        data: data.aVacc,
-                        backgroundColor: '#007CC7',
-                        borderColor: '#4DA8DA',
-                        borderWidth: 1
-                    }]
-                },
-                options: { scales: {   yAxes: [{    ticks: {
-                                callback: function(value, index, values) {
-                                    return value ;
-                                }    }  }]  } }    });
-        }
-        
-        async function getVaccData(){
-            var aVacc=[];
-            var dateAdmin=[];
-            var temp;
-            const response = await fetch(covidURL);
-            const data = await response.json();
-            console.log(data.summary);
-            for (var i=0; i< data.summary.length;i++)
-            {
-                temp=data.summary[i].date;
-                aVacc.push(data.summary[i].avaccine);
-                dateAdmin.push(formatMonth(temp));        
-                document.getElementById('totalFV').textContent=data.summary[i].cumulative_cvaccine;
-            }
-            return { aVacc, dateAdmin };
-        }
-        async function getCaseData(){
-            var cases=[];
-            var dateAdmin=[];
-            var temp;
-            const response = await fetch(covidURL);
-            const data = await response.json();
-            console.log(data.summary);
-            for (var i=0; i< data.summary.length;i++)
-            {
-                temp=data.summary[i].date;
-                cases.push(data.summary[i].active_cases);
-                dateAdmin.push(formatMonth(temp));        
-                document.getElementById('totalCS').textContent=data.summary[i].cumulative_cases;
-            }
-            return { cases, dateAdmin };
-
-        }   
-        function formatMonth(str){
-            var month;
-            switch (str.charAt(3)+str.charAt(4))
-            {
-                case "01": month= "Jan"; break;
-                case "02": month= "Feb"; break;
-                case "03": month= "Mar"; break;
-                case "04": month= "April"; break;
-                case "05": month= "May"; break;
-                case "06": month= "June"; break;
-                case "07": month= "July"; break;
-                case "08": month= "Aug"; break; 
-                case "09": month= "Sept"; break;
-                case "10": month= "Oct"; break;
-                case "11": month= "Nov"; break;
-                case "12": month= "Dec"; break;
-            }
-            return month+" "+str.charAt(0)+str.charAt(1);
-        }
-    </script>
+    <script src="app.js"></script>
 </body>
+
 </html>
