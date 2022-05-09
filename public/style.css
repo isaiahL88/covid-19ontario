@@ -49,16 +49,20 @@ label {
 
 }
 
+button {
+    border-style: solid;
+    text-align: center;
+    border-radius: 1vh;
+    background-color: #1c42aab2;
+    color: #1c42aab2;
+    padding: 1vh;
+    font-size: 2vh;
+    color: #EEFBFB;
+    font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+}
+
 label h6 {
     font-size: 2vh;
-}
-
-#totalC {
-    color: #EEFBFB;
-}
-
-#totalV {
-    color: #EEFBFB;
 }
 
 /* Navigation Bar Styling */

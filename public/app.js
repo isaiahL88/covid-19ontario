@@ -38,12 +38,17 @@ console.log("FETCHING FROM URL: " + covidURL);
 //Used to be used to chart daily vaccination data
 // chartItV();
 
-chartItT();
+// chartItT();
 chartItC();
+
+var caseChart = null;
+var testChart = null;
+
+
 async function chartItC() {
     const data = await getCaseData();
     const ctx = document.getElementById('myChartC').getContext('2d');
-    const myChart = new Chart(ctx, {
+    caseChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: data.dateAdmin,
@@ -73,7 +78,7 @@ async function chartItC() {
 async function chartItT() {
     const data = await getTestData();
     const ctx = document.getElementById('myChartT').getContext('2d');
-    const myChart = new Chart(ctx, {
+    testChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: data.dateAdmin,
@@ -154,12 +159,14 @@ function formatMonth(str) {
 
 const test_button = document.querySelector("#test-button");
 const test = document.querySelector(".tests");
-
+test.classList.toggle("hide");
 
 /* TESTS POP-UP EVENT LISTENER */
 test_button.addEventListener('click', () => {
     console.log("Test button hit");
     if (test == null) return;
     test.classList.toggle('hide');
-    console.log(test.className);
+    if (testChart === null) {
+        chartItT();
+    }
 })
