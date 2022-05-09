@@ -69,35 +69,6 @@ async function chartItC() {
         }
     });
 }
-// async function chartItV() {
-//     const data = await getVaccData();
-//     const ctx = document.getElementById('myChartV').getContext('2d');
-//     const myChart = new Chart(ctx, {
-//         type: 'line',
-//         data: {
-//             labels: data.dateAdmin,
-//             datasets: [{
-//                 label: 'Daily COVID-19 Vaccine doses admistered in Ontario',
-//                 data: data.aVacc,
-//                 backgroundColor: '#1c42aab2',
-//                 borderColor: '#1c42aab2',
-//                 borderWidth: 1
-//             }]
-//         },
-//         options: {
-//             scales: {
-//                 yAxes: [{
-//                     ticks: {
-//                         callback: function (value, index, values) {
-//                             return value;
-//                         }
-//                     }
-//                 }]
-//             },
-//             responsive: true
-//         }
-//     });
-// }
 
 async function chartItT() {
     const data = await getTestData();
@@ -144,22 +115,6 @@ async function getTestData() {
     return { aTest, dateAdmin };
 }
 
-// !Waiting for api to return vaccine vars!
-// async function getVaccData() {
-//     var aVacc = [];
-//     var dateAdmin = [];
-//     var temp;
-//     const response = await fetch(covidURL);
-//     const data = await response.json();
-//     console.log(data.summary);
-//     for (var i = 0; i < data.data; i++) {
-//         temp = data.data[i].date;
-//         aVacc.push(data[i].avaccine);
-//         dateAdmin.push(formatMonth(temp));
-//         // document.getElementById('totalFV').textContent = data.summary[i].cumulative_cvaccine;
-//     }
-//     return { aVacc, dateAdmin };
-// }
 async function getCaseData() {
     var cases = [];
     var dateAdmin = [];
@@ -194,3 +149,17 @@ function formatMonth(str) {
     }
     return month + " " + str.charAt(0) + str.charAt(1);
 }
+
+/* MENU POP-UP CODE */
+
+const test_button = document.querySelector("#test-button");
+const test = document.querySelector(".tests");
+
+
+/* TESTS POP-UP EVENT LISTENER */
+test_button.addEventListener('click', () => {
+    console.log("Test button hit");
+    if (test == null) return;
+    test.classList.toggle('hide');
+    console.log(test.className);
+})

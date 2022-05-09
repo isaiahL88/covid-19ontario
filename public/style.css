@@ -28,6 +28,16 @@ body {
     justify-content: center;
 }
 
+.graph {
+    display: flex;
+    flex-direction: column;
+}
+
+/* used for pop-up */
+.hide {
+    display: none;
+}
+
 label {
     border-style: solid;
     text-align: center;
