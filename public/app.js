@@ -35,12 +35,6 @@ if (newMonth < 10) {
 var covidURL = `https://api.opencovid.ca/summary?loc=ON&after=${date.getFullYear()}-${month}-${day}`;
 console.log("FETCHING FROM URL: " + covidURL);
 
-//Used to be used to chart daily vaccination data
-// chartItV();
-
-// chartItT();
-chartItC();
-
 var caseChart = null;
 var testChart = null;
 var vacPie = null;
@@ -127,7 +121,8 @@ async function chartItV() {
                         backgroundColor: ['#1c42aab2', '#8792B1'],
                         borderWidth: 1
                     }]
-                }
+                },
+                hoverOffset: 4
             })
         });
 }
@@ -164,7 +159,7 @@ async function getVacData() {
     //calculated unvacinated people
     var vaccinated = dataON.total_vaccinated;
     var unvacinated = ONData.population - vaccinated;
-    return { vaccinated, unvacinated };
+    return [vaccinated, unvacinated];
 }
 
 async function getTestData() {
@@ -232,6 +227,7 @@ cases.classList.toggle('hide');
 /* select and hide vaccinations menu */
 const vac_button = document.querySelector('#vac-button');
 const vac = document.querySelector('.vac');
+vac.classList.toggle('hide');
 
 /* TESTS POP-UP EVENT LISTENER */
 test_button.addEventListener('click', () => {
