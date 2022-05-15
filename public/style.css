@@ -8,10 +8,6 @@ body {
 .nav-links {}
 
 /* Canvas Graph Styling */
-.graph {
-    text-align: center;
-
-}
 
 .chartV-container {
     align-items: center;
@@ -29,6 +25,8 @@ body {
 }
 
 .graph {
+    margin: 5vh;
+    text-align: center;
     display: flex;
     flex-direction: column;
 }
@@ -38,34 +36,19 @@ body {
     display: none;
 }
 
-label {
-    border-style: solid;
-    text-align: center;
-    border-radius: 1vh;
-    background-color: #1c42aab2;
-    color: #1c42aab2;
-    padding: 1vh;
-    font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
-
-}
-
 button {
     border-style: solid;
     text-align: center;
     border-radius: 1vh;
     background-color: #1c42aab2;
-    color: #1c42aab2;
     padding: 1vh;
-    font-size: 2vh;
+    font-size: 4vh;
     color: #EEFBFB;
     font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
 }
 
-label h6 {
-    font-size: 2vh;
-}
-
 /* Navigation Bar Styling */
+
 nav {
     display: flex;
     justify-content: space-around;
