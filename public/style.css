@@ -5,7 +5,6 @@ body {
 }
 
 /* Nav */
-.nav-links {}
 
 /* Canvas Graph Styling */
 
@@ -31,6 +30,11 @@ body {
     flex-direction: column;
 }
 
+.tests {
+    width: 80vw;
+    position: relative;
+}
+
 /* used for pop-up */
 .hide {
     display: none;
@@ -52,10 +56,15 @@ button {
 nav {
     display: flex;
     justify-content: space-around;
+    flex-direction: row;
     align-items: center;
     background-color: #1c42aab2;
     margin-bottom: 20px;
     height: 100px;
+}
+
+.logo {
+    align-self: center;
 }
 
 .logo h1 {
@@ -65,20 +74,21 @@ nav {
 
 .nav-links {
     display: flex;
+    flex-direction: row;
     justify-content: space-around;
-    width: 40%;
+    align-items: center;
 }
 
 .nav-links a {
     font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
     color: #EEFBFB;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 3vh;
 }
 
 .nav-links li {
     list-style: none;
-    opacity: 0;
+    padding: 2vh;
 }
 
 .burger {
@@ -174,6 +184,9 @@ p {
     }
 
     /* Nav stlying*/
+    .nav-links li {
+        opacity: 0;
+    }
 
     .nav-links {
         position: absolute;

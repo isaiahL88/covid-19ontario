@@ -41,7 +41,11 @@ if (date.getDate() < 10) {
 } else {
     day = "" + date.getDate();
 }
-var newMonth = Math.abs((date.getMonth() - 6) % 12);
+
+//Used to determine how many months of data to show in charts
+var monthShown = 6;
+
+var newMonth = Math.abs((date.getMonth() - monthsShown;) % 12);
 if (newMonth < 10) {
     month = "0" + newMonth;
 } else {

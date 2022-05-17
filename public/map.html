@@ -18,26 +18,27 @@
 </head>
 
 <body>
-       <!-- Navigation Bar -->
- <nav>
-    <div class="logo">
-        <h1> Covid-19 Ontario </h1>
-    </div>
-    <ul class="nav-links">
-        <li><a href="index.html"> Statistics </a></li>
-        <li><a href="map.html"> Assesment Locations </a></li>
-        <li><a href="info.html"> Vaccine Information</a></li>
-    </ul>
-    <div class="burger">
-        <div class="line1"></div>
-        <div class="line2"></div>
-        <div class="line3"></div>
-    </div>
-</nav>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">
+            <h1> Covid-19 Ontario </h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"> Statistics </a></li>
+            <li><a href="map.html"> Assesment Locations </a></li>
+            <li><a href="info.html"> Vaccine Information</a></li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
     <h1>Covid-19 Assesment Centres in Ontario</h1>
     <div id="map"></div>
     <p><a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a
-        href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a></p>
+            href="htt ps://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a></p>
+    <script src="app.js"></script>
     <script>
         var map = L.map('map').setView([51.2538, -85.3232], 5);
         L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=bVQrYjaeW0airGBjsvFz', {
@@ -64,9 +65,9 @@
 
         //L.marker(xTable[0]).addTo(map);
 
-      //  let newmarket = [44.05011, -79.466315];
-      //  console.log(newmarket);
-       // L.marker(newmarket).addTo(map);
+        //  let newmarket = [44.05011, -79.466315];
+        //  console.log(newmarket);
+        // L.marker(newmarket).addTo(map);
         // L.marker([xTable]).addTo(map);
         getX();
         //console.log(xTable);
@@ -86,14 +87,14 @@
             const table = data.split('\n').slice(1);
             table.forEach(row => {
                 const columns = row.split(',');
-                  
+
                 const xCoord = columns[1];
                 const yCoord = columns[2];
                 console.log(xCoord, yCoord);
                 xTable.push(xCoord, yCoord);
-                L.marker([xCoord, yCoord]).addTo(map);   
-            
-               
+                L.marker([xCoord, yCoord]).addTo(map);
+
+
             });
         }
 
