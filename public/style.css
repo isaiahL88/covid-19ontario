@@ -20,7 +20,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 .graph {
@@ -35,10 +35,12 @@ body {
     position: relative;
 }
 
-#graph1 {
-    background-color: aliceblue;
-
+.cases {
+    width: 80vw;
+    position: relative;
 }
+
+#graph1 {}
 
 /* used for pop-up */
 .hide {

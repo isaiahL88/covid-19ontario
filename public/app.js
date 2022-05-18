@@ -51,7 +51,7 @@ function bigDispaly() {
 //Used to Resize Chart size
 var bounds = [
     { min: 0, max: 700, func: smallDisplay },
-    { min: 0, max: 1000, func: medDisplay },
+    { min: 701, max: 1000, func: medDisplay },
     { min: 1001, max: Number.MAX_VALUE, func: bigDispaly },
 ];
 
@@ -89,26 +89,6 @@ var vacPie = null;
 
 /* renders all case info */
 async function chartItC() {
-    //Get current date using browser
-    const date = new Date();
-    //Adjust Amount of Data in Chart
-    console.log(`day: ${date.getDate()}, month: ${date.getMonth()}`);
-    var day; var month;
-    if (date.getDate() < 10) {
-        day = "0" + date.getDate();
-    } else {
-        day = "" + date.getDate();
-    }
-    var newMonth = Math.abs((date.getMonth() - chartSize) % 12);
-    if (newMonth < 10) {
-        month = "0" + newMonth;
-    } else {
-        month = "" + newMonth;
-    }
-
-    var covidURL = `https://api.opencovid.ca/summary?loc=ON&after=${date.getFullYear()}-${month}-${day}`;
-    console.log("FETCHING FROM URL: " + covidURL);
-
     const data = await getCaseData();
     const ctx = document.getElementById('myChartC').getContext('2d');
     caseChart = new Chart(ctx, {
@@ -279,21 +259,31 @@ async function getCaseData() {
     //Get current date using browser
     const date = new Date();
     //Adjust Amount of Data in Chart
-    console.log(`day: ${date.getDate()}, month: ${date.getMonth()}`);
-    var day; var month;
-    if (date.getDate() < 10) {
-        day = "0" + date.getDate();
+    console.log(`day: ${date.getDate()}, month: ${date.getMonth() + 1}`);
+    var day; var month; var year;
+    console.log('THIS IS THE CURRENT DATE ' + date.getMonth());
+    year = date.getFullYear();
+
+    //Day is Hard Coded
+    day = "01";
+
+    //calculate on or after month after chartSize dynamic adjustment
+    if (date.getMonth() < chartSize) {
+        var newMonth = 12 - (chartSize - (date.getMonth() + 1));
+        year--;
     } else {
-        day = "" + date.getDate();
+        var newMonth = Math.abs((date.getMonth() + 1 - chartSize) % 12);
     }
-    var newMonth = Math.abs((date.getMonth() - chartSize) % 12);
+
     if (newMonth < 10) {
         month = "0" + newMonth;
     } else {
         month = "" + newMonth;
     }
 
-    var covidURL = `https://api.opencovid.ca/summary?loc=ON&after=${date.getFullYear()}-${month}-${day}`;
+    console.log("NEW MONTH: " + month);
+
+    var covidURL = `https://api.opencovid.ca/summary?loc=ON&after=${year}-${month}-${day}`;
     console.log("FETCHING FROM URL: " + covidURL);
 
     var cases = [];
