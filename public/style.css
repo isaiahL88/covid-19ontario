@@ -2,6 +2,7 @@ body {
     background-color: #CDCDCD;
     margin: 0;
     font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    overflow-x: hidden;
 }
 
 /* Nav */
