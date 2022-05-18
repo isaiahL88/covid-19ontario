@@ -2,7 +2,6 @@ body {
     background-color: #CDCDCD;
     margin: 0;
     font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-    overflow-x: hidden;
 }
 
 /* Nav */
@@ -189,6 +188,11 @@ p {
     /* bug fix */
     html {
         overflow-x: hidden;
+    }
+
+    body {
+        overflow-x: hidden;
+        position: relative;
     }
 
     /* Nav stlying*/
