@@ -35,6 +35,11 @@ body {
     position: relative;
 }
 
+#graph1 {
+    background-color: aliceblue;
+
+}
+
 /* used for pop-up */
 .hide {
     display: none;
@@ -173,7 +178,7 @@ p {
     margin-top: 20px;
 }
 
-@media screen and (max-width:1200px) {
+@media screen and (max-width:1000px) {
     #div1 {
         display: inline;
     }
