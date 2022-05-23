@@ -4,6 +4,8 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "live": "^0.1.25-beta.0",
+    "server": "^1.0.37"
   }
 }
