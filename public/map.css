@@ -1,0 +1,14 @@
+#vac_logo {}
+
+.centers {
+    display: flex;
+    flex-direction: column;
+}
+
+#map {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+    length: 400px;
+}

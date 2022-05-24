@@ -7,70 +7,6 @@ L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=bVQrYjaeW
     crossOrigin: true
 }).addTo(map);
 
-var xTable = [];
-var yTable = [];
-
-var x = 43.651070;
-var y = -79.347015;
-
-
-//  xTable = getX();
-
-// const marker = L.marker([0,0]).addTo(map);
-// marker.setLatLng([xTable[0],xTable[1]]);
-
-//  getX();
-
-//L.marker(xTable[0]).addTo(map);
-
-//  let newmarket = [44.05011, -79.466315];
-//  console.log(newmarket);
-// L.marker(newmarket).addTo(map);
-// L.marker([xTable]).addTo(map);
-getX();
-//console.log(xTable);
-//const marker = L.marker([0, 0]).addTo(map);
-//L.marker(xTable).addTo(map);
-//    for (let i = 0; i < 2; i++) {
-
-//     }
-
-
-/// L.marker([43.651070,  -79.347015]).addTo(map);
-
-async function getX() {
-    const response = await fetch('newlocations.csv');
-    const data = await response.text();
-
-    const table = data.split('\n').slice(1);
-    table.forEach(row => {
-        const columns = row.split(',');
-
-        const xCoord = columns[1];
-        const yCoord = columns[2];
-        console.log(xCoord, yCoord);
-        xTable.push(xCoord, yCoord);
-        L.marker([xCoord, yCoord]).addTo(map);
-
-
-    });
-}
-
-async function getY() {
-    const response = await fetch('test2.csv');
-    const data = await response.text();
-
-    const table = data.split('\n').slice(1);
-    table.forEach(row => {
-        const columns = row.split(',');
-        const yCoord = columns[12];
-        console.log(yCoord);
-        xTable.push(yCoord);
-
-    });
-}
-
-
 getLocations();
 
 //Live location info
@@ -82,12 +18,15 @@ async function getLocations() {
     console.log(data);
 
     //add all localtions to map
+    var i = 100;
     data.forEach((entry) => {
-        L.marker(
-            [entry.longitude, entry.latitude],
-            {
-                title: entry.location_name
-            }
-        ).addTo(map)
+        if (i > 0) {
+
+            L.marker(
+                L.latLng(entry.latitude, entry.longitude)
+            ).addTo(map);
+            console.log(`Added entry ${entry.location_name} into map`);
+        }
+        i--;
     })
 }
