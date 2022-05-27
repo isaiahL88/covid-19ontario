@@ -29,4 +29,30 @@ async function getLocations() {
         }
         i--;
     })
+
+    //Collect set of all cities in dataset
+    var cities = new Set();
+    data.forEach((entry) => {
+        cities.add(entry.city);
+    });
+
+    cities.forEach((city) => {
+        //select dropwown-content div
+        var dropdown = $('.dropdown-content');
+
+        //create new button for this city
+        const newButton = document.createElement('button');
+        newButton.textContext = city;
+
+        dropdown.append(newButton);
+        console.log(`button created for ${city}`);
+
+    });
 }
+
+
+
+
+cities.forEach((city, index) => {
+
+});
