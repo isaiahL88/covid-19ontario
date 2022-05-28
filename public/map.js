@@ -17,10 +17,33 @@ async function getLocations() {
     console.log('NEW LOACTION DATA OVER HERE');
     console.log(data);
 
-    //add all localtions to map
-    var i = 100;
+    //Collect set of all cities in dataset
+    var cities = new Set();
     data.forEach((entry) => {
-        if (i > 0) {
+
+        cities.add(entry.city);
+    });
+
+    //create city dropdown
+    cities.forEach((city) => {
+        //select dropwown-content div
+        var dropdown = $('.dropdown-content');
+
+        //create new button for this city
+        const newSpan = document.createElement('span');
+        const text = document.createTextNode(city);
+        newSpan.appendChild(text);
+        dropdown.append(newSpan);
+        console.log(`button created for ${city}`);
+
+    });
+}
+
+
+//Used to map all the vaccination centers in one city
+function mapIt(data, city) {
+    data.forEach((entry) => {
+        if (entry.city = city) {
 
             L.marker(
                 L.latLng(entry.latitude, entry.longitude)
@@ -29,30 +52,4 @@ async function getLocations() {
         }
         i--;
     })
-
-    //Collect set of all cities in dataset
-    var cities = new Set();
-    data.forEach((entry) => {
-        cities.add(entry.city);
-    });
-
-    cities.forEach((city) => {
-        //select dropwown-content div
-        var dropdown = $('.dropdown-content');
-
-        //create new button for this city
-        const newButton = document.createElement('button');
-        newButton.textContext = city;
-
-        dropdown.append(newButton);
-        console.log(`button created for ${city}`);
-
-    });
 }
-
-
-
-
-cities.forEach((city, index) => {
-
-});
