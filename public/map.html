@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="map.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/leaflet.js"></script>
+    <script src="https://kit.fontawesome.com/30ff8945a0.js" crossorigin="anonymous"></script>
     <style>
         #map {
             position: absolute;
@@ -41,13 +42,30 @@
         <div class="dropdown">
             <span>City</span>
             <div class="dropdown-content">
-                <ul>
+                <ul class="menu">
                     <li>Toronto</li>
                     <li>Markham</li>
                     <li>Etobicoke</li>
                     <li>Barrie</li>
                     <li>Missasauga</li>
                 </ul>
+            </div>
+        </div>
+
+        <div class='wrapper'>
+            <div class='search_box'>
+                <div class='dropdown'>
+                    <div class='default_option'>All</div>
+                    <ul class="cities">
+                        <li>All</li>
+                        <li>Recent</li>
+                        <li>Popular</li>
+                    </ul>
+                </div>
+                <div class="search_field">
+                    <input type="text" class="input" placeholder="Search">
+                    <i class="fas fa-solid fa-magnifying-glass"></i>
+                </div>
             </div>
         </div>
         <div id="map"></div>

@@ -53,3 +53,37 @@ function mapIt(data, city) {
         i--;
     })
 }
+
+//dropdown script
+$(document).ready(function () {
+    $(".default_option").click(function () {
+        $(".dropdown ul").toggleClass("active");
+    })
+
+    $(".dropdown ul li").click(function () {
+        var text = $(this).text();
+        $(".default_option").text(text);
+        $(".dropdown ul").removeClass("active");
+    })
+
+    $(".fas").click(() => {
+        console.log("fas clicked")
+        var cities = new Array();
+        cities = $(".cities li");
+        console.log(cities);
+        //Citty in the search bar
+        var searchCity = $(".search_field .input").val();
+        console.log(searchCity);
+        var found = false;
+        Array.prototype.forEach.call(cities, (city) => {
+            if (city.innerText == searchCity) {
+                city.click();
+                found = true;
+            }
+        });
+
+        if (!found) {
+            alert(`Unable to find city with name ${searchCity}`);
+        }
+    });
+})
