@@ -12,17 +12,17 @@ body {
 #vac_logo {}
 
 .centers {
-    display: flex;
-    flex-direction: column;
+    display: inline-block;
 }
 
 #map {
-    position: relative;
-    display: none;
     justify-content: space-around;
     align-items: center;
     width: 80%;
     length: 400px;
+    position: absolute;
+    top: 25%;
+    z-index: -1;
 }
 
 /* Dropdown Styling */
@@ -32,8 +32,9 @@ body {
 
 .wrapper {
     position: absolute;
-    top: 50%;
+    top: 20%;
     left: 50%;
+    z-index: 1;
     transform: translate(-50%, -50%);
 }
 
