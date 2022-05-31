@@ -59,7 +59,7 @@ async function mapIt(city) {
     //go through each entry in the dataset
     data.forEach((entry) => {
         //Check if this entry in the data is in the city
-        if (entry.city.toLowerCase() === city.toLowerCase) {
+        if (entry.city.toLowerCase() === city.toLowerCase()) {
             referenceEntry = entry;
             console.log("found a centre");
             L.marker(
@@ -68,6 +68,7 @@ async function mapIt(city) {
             console.log(`Added entry ${entry.location_name} into map`);
         }
     });
+    console.log("REFERENCE ENTRY");
     console.log(referenceEntry);
     map.setView([referenceEntry.latitude, referenceEntry.longitude], 12);
 }
@@ -100,6 +101,12 @@ $(document).ready(function () {
 
         if (!found) {
             alert(`Unable to find city with name ${searchCity}`);
+        }
+    });
+
+    $(".input").keyup(function (event) {
+        if (event.keyCode === 13) {
+            $(".fas").click();
         }
     });
 });
