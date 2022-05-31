@@ -22,8 +22,8 @@ function navSlider() {
         burger.classList.toggle('toggle');
 
     });
-
-
 }
 
-navSlider();
+$(document).ready(() => {
+    navSlider();
+});

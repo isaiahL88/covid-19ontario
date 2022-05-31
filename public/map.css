@@ -73,6 +73,8 @@ body {
     display: none;
     box-shadow: 8px 8px 6px -10px #b3c6ff;
     overflow-y: scroll;
+    max-height: 600px;
+    list-style: none;
 }
 
 .wrapper .search_box .dropdown ul.active {
@@ -81,6 +83,12 @@ body {
 
 .wrapper .search_box .dropdown ul li {
     padding-bottom: 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.wrapper .search_box .dropdown ul li:hover {
+    background: #dde2f1;
 }
 
 .wrapper .search_box .dropdown ul li:last-child {
@@ -172,4 +180,19 @@ body {
 .dropdown:hover .dropdown-content {
     display: flex;
     flex-direction: column;
+}
+
+/* MOBILE VIEW */
+@media screen and (max-width:700px) {
+    .wrapper .search_box {
+        width: 350px;
+    }
+
+    .wrapper .search_box .dropdown {
+        width: 100px;
+    }
+
+    .wrapper .search_box .search_field {
+        width: 200px;
+    }
 }

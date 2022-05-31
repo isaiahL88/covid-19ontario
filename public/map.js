@@ -1,3 +1,5 @@
+
+
 var map = L.map('map').setView([51.2538, -85.3232], 5);
 L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=bVQrYjaeW0airGBjsvFz', {
     tileSize: 512,
@@ -53,8 +55,11 @@ async function getLocations() {
 //Used to map all the vaccination centers in one city
 async function mapIt(city) {
     var referenceEntry;
+
+    //go through each entry in the dataset
     data.forEach((entry) => {
-        if (entry.city === city) {
+        //Check if this entry in the data is in the city
+        if (entry.city.toLowerCase() === city.toLowerCase) {
             referenceEntry = entry;
             console.log("found a centre");
             L.marker(
@@ -70,10 +75,13 @@ async function mapIt(city) {
 
 //dropdown script
 $(document).ready(function () {
+    //close dropdown
     $(".default_option").click(function () {
         $(".dropdown ul").toggleClass("active");
     })
 
+    //Make the search button look for the city in the input box and click it if 
+    //it is found
     $(".fas").click(() => {
         console.log("fas clicked")
         var cities = new Array();
@@ -84,7 +92,7 @@ $(document).ready(function () {
         console.log(searchCity);
         var found = false;
         Array.prototype.forEach.call(cities, (city) => {
-            if (city.innerText == searchCity) {
+            if (city.innerText.toLowerCase() == searchCity.toLowerCase()) {
                 city.click();
                 found = true;
             }

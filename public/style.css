@@ -233,3 +233,18 @@ p {
         transition: all 0.3s ease;
     }
 }
+
+::-webkit-scrollbar {
+    width: 1em;
+}
+
+::-webkit-scrollbar-track {
+    background: #dde2f1;
+    border-radius: 100vw;
+    margin-block: 0.5em;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #b3c6ff;
+    border-radius: 100vw;
+}
