@@ -22,7 +22,7 @@ body {
     length: 400px;
     position: absolute;
     top: 25%;
-    z-index: -1;
+    z-index: 0;
 }
 
 /* Dropdown Styling */
@@ -39,7 +39,7 @@ body {
 }
 
 .wrapper .search_box {
-    width: 500px;
+    width: 550px;
     background: #fff;
     border-radius: 5px;
     height: 65px;
@@ -72,6 +72,7 @@ body {
     padding: 20px;
     display: none;
     box-shadow: 8px 8px 6px -10px #b3c6ff;
+    overflow-y: scroll;
 }
 
 .wrapper .search_box .dropdown ul.active {
@@ -117,7 +118,7 @@ body {
 
 .wrapper .search_box .search_field .fas {
     position: absolute;
-    top: 10px;
+    top: 22px;
     right: 10px;
     font-size: 22px;
     color: #5078ef;

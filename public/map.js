@@ -9,11 +9,13 @@ L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=bVQrYjaeW
 
 // getLocations();
 
+var data = null;
+
 //Live location info
 async function getLocations() {
     //fetch location from URL
     const response = await fetch('https://murmuring-reef-58036.herokuapp.com/https://covid-19.ontario.ca/covid-19-ac-assets/data/locations.json');
-    const data = await response.json();
+    data = await response.json();
     console.log('NEW LOACTION DATA OVER HERE');
     console.log(data);
 
@@ -24,54 +26,52 @@ async function getLocations() {
         cities.add(entry.city);
     });
 
-    // //create city dropdown
-    // cities.forEach((city) => {
-    //     //select dropwown-content div
-    //     var dropdown = $('.dropdown-content');
+    //create city dropdown
+    cities.forEach((city) => {
+        //select dropwown-content div
+        var dropdown = $('.cities');
 
-    //     //create new button for this city
-    //     const newSpan = document.createElement('span');
-    //     const text = document.createTextNode(city);
-    //     newSpan.appendChild(text);
-    //     dropdown.append(newSpan);
-    //     console.log(`button created for ${city}`);
+        //create new button for this city
+        const dropdownLI = document.createElement('li');
+        const text = document.createTextNode(city);
+        dropdownLI.appendChild(text);
+        dropdown.append(dropdownLI);
+        console.log(`button created for ${city}`);
 
-    // });
-}
-
-
-//Used to map all the vaccination centers in one city
-async function mapIt(city) {
-    //fetch location from URL
-    const response = await fetch('https://murmuring-reef-58036.herokuapp.com/https://covid-19.ontario.ca/covid-19-ac-assets/data/locations.json');
-    const data = await response.json();
-    console.log('NEW LOACTION DATA OVER HERE');
-    console.log(data);
-
-    console.log(city);
-
-    data.forEach((entry) => {
-        if (entry.city === city) {
-            console.log("found a centre");
-            L.marker(
-                L.latLng(entry.latitude, entry.longitude)
-            ).addTo(map);
-            console.log(`Added entry ${entry.location_name} into map`);
-        }
-    })
-}
-
-//dropdown script
-$(document).ready(function () {
-    $(".default_option").click(function () {
-        $(".dropdown ul").toggleClass("active");
-    })
+    });
 
     $(".dropdown ul li").click(function () {
         var text = $(this).text();
         $(".default_option").text(text);
         $(".dropdown ul").removeClass("active");
         mapIt($(this).text());
+    })
+
+}
+
+
+//Used to map all the vaccination centers in one city
+async function mapIt(city) {
+    var referenceEntry;
+    data.forEach((entry) => {
+        if (entry.city === city) {
+            referenceEntry = entry;
+            console.log("found a centre");
+            L.marker(
+                L.latLng(entry.latitude, entry.longitude)
+            ).addTo(map);
+            console.log(`Added entry ${entry.location_name} into map`);
+        }
+    });
+    console.log(referenceEntry);
+    map.setView([referenceEntry.latitude, referenceEntry.longitude], 12);
+}
+
+
+//dropdown script
+$(document).ready(function () {
+    $(".default_option").click(function () {
+        $(".dropdown ul").toggleClass("active");
     })
 
     $(".fas").click(() => {
@@ -94,4 +94,6 @@ $(document).ready(function () {
             alert(`Unable to find city with name ${searchCity}`);
         }
     });
-})
+});
+
+getLocations();
