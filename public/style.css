@@ -1,7 +1,7 @@
 body {
     background-color: #CDCDCD;
     margin: 0;
-    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-family: 'Raleway', sans-serif;
 }
 
 /* Nav */
@@ -48,14 +48,15 @@ body {
 }
 
 button {
-    border-style: solid;
+    border-style: none;
     text-align: center;
     border-radius: 1vh;
-    background-color: #1c42aab2;
+    background-color: #5175e0a8;
     padding: 1vh;
     font-size: 4vh;
     color: #EEFBFB;
-    font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    font-family: 'Raleway', sans-serif;
 }
 
 /* Navigation Bar Styling */
@@ -63,52 +64,41 @@ button {
 nav {
     display: flex;
     justify-content: space-around;
-    flex-direction: row;
-    align-items: center;
-    background-color: #1c42aab2;
-    margin-bottom: 20px;
-    height: 100px;
+    background-color: #5175e0a8;
 }
 
-.logo {
-    align-self: center;
-}
-
-.logo h1 {
+#logo {
     color: #EEFBFB;
-    font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+    padding: 0px 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
 }
 
 .nav-links {
+    margin: 0;
+    list-style: none;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    flex-direction: space-around;
     align-items: center;
 }
 
+.nav-links li {
+    display: flex;
+    padding: 2vh;
+
+}
+
 .nav-links a {
-    font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
     color: #EEFBFB;
     text-decoration: none;
     font-size: 3vh;
-}
-
-.nav-links li {
-    list-style: none;
-    padding: 2vh;
 }
 
 .burger {
     display: none;
 }
 
-.burger div {
-    width: 25px;
-    border-radius: 3px;
-    background-color: rgb(187, 187, 187);
-    margin: 5px;
-    transition: all 0.3s ease;
-}
 
 /* burger open styling */
 .toggle .line1 {
@@ -123,9 +113,6 @@ nav {
     transform: rotate(45deg) translate(-5px, -6px);
 }
 
-.credit {
-    margin-top: 300vh;
-}
 
 @keyframes navLinkFade {
     from {
@@ -139,45 +126,16 @@ nav {
     }
 }
 
-.toggle .line1 {
-    transform: rotate(-45deg) translate(-5px, 6px);
-}
-
-.toggle .line2 {
-    opacity: 0;
-}
-
-.toggle .line3 {
-    transform: rotate(45deg) translate(-5px, -6px);
-}
 
 /* Canvas Styling */
 #div1 {
     background-color: #CDCDCD;
 }
 
-#map {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 80%;
-    length: 400px;
-}
-
-h1 {
+.credit {
+    bottom: 0px;
+    margin-top: 25vh;
     text-align: center;
-}
-
-p {
-    margin-top: 1000px;
-}
-
-#credit {
-    margin-top: 330px;
-}
-
-#source {
-    margin-top: 20px;
 }
 
 @media screen and (max-width:1000px) {
@@ -222,6 +180,7 @@ p {
     .burger {
         display: block;
         cursor: pointer;
+        padding: 25px 0;
     }
 
     .burger div {
