@@ -5,7 +5,7 @@ console.log("hello, this is app.js")
 var chartSize = 6;
 
 function smallDisplay() {
-    chartSize = 0;
+    chartSize = 1;
     console.log("SMALL DISPLAY");
 }
 
