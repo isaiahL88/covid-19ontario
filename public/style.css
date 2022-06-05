@@ -12,6 +12,18 @@ body {
     align-items: center;
 }
 
+.total_vac_label {
+    background-color: #5175e0a8;
+    border-radius: 1vh;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    font-size: 20px;
+    font-style: bold;
+    color: #fff;
+    width: 40vw;
+    margin: 2vw auto;
+    padding: 2vw 0;
+}
+
 .chartC-container {
     align-items: center;
 }
@@ -36,6 +48,11 @@ body {
 }
 
 .cases {
+    width: 80vw;
+    position: relative;
+}
+
+.vac {
     width: 80vw;
     position: relative;
 }

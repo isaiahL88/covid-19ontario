@@ -143,6 +143,7 @@ async function chartItV() {
                 },
                 hoverOffset: 4
             })
+
         });
 }
 
@@ -178,6 +179,18 @@ async function getVacData() {
     //calculated unvacinated people
     var vaccinated = dataON.total_vaccinated;
     var unvacinated = ONData.population - vaccinated;
+
+    //calculate booster 1 pie data
+    var booster1 = dataON.total_boosters_1;
+    var no_booster1 = ONData.population - booster1;
+
+    //calculate booster 2 pie data
+    var booster2 = dataON.total_boosters_2;
+    var no_booster2 = ONData.population - booster2;
+
+    //set total_vacinated label
+    $("#total_vac").text(vaccinated.toLocaleString("en-US"));
+
     return [vaccinated, unvacinated];
 }
 
@@ -291,7 +304,7 @@ function formatMonth(str) {
     return month + " " + str.charAt(0) + str.charAt(1);
 }
 
-/* MENU POP-UP CODE */
+/* INTITIAL MENU POP-UP CODE */
 
 /* select and hide test menu */
 const test_button = document.querySelector("#test-button");
@@ -307,6 +320,9 @@ cases.classList.toggle('hide');
 const vac_button = document.querySelector('#vac-button');
 const vac = document.querySelector('.vac');
 vac.classList.toggle('hide');
+$(".total_vac_label").toggleClass('hide');
+$("booster-1").toggleClass("hdie");
+$("total_booster1_label").toggleClass("hide");
 
 /* TESTS POP-UP EVENT LISTENER */
 test_button.addEventListener('click', () => {
@@ -339,5 +355,6 @@ vac_button.addEventListener('click', () => {
     if (vacPie === null) {
         chartItV();
     }
+    $(".total_vac_label").toggleClass('hide');
 })
 
