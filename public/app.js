@@ -72,8 +72,8 @@ async function chartItC() {
             datasets: [{
                 label: 'Daily cases in Ontario',
                 data: data.cases,
-                backgroundColor: '#1c42aab2',
-                borderColor: '#1c42aab2',
+                backgroundColor: '#5175e0a8',
+                borderColor: '#5175e0a8',
                 borderWidth: 1,
             }]
         },
@@ -103,8 +103,8 @@ async function chartItT() {
             datasets: [{
                 label: 'Daily COVID-19 Vaccine Tests',
                 data: data.aTest,
-                backgroundColor: '#1c42aab2',
-                borderColor: '#1c42aab2',
+                backgroundColor: '#5175e0a8',
+                borderColor: '#5175e0a8',
                 borderWidth: 1
             }]
         },
@@ -222,8 +222,17 @@ async function getVacData() {
     var booster2 = dataON.total_boosters_2;
     var no_booster2 = ONData.population - booster2;
 
+
+    //SETTING THE LABEL WITH UPDATED TOTAL POPULATION VALUES
+
     //set total_vacinated label
     $("#total_vac").text(vaccinated.toLocaleString("en-US"));
+
+    //set total_boster1 label
+    $("#total_booster1").text(booster1.toLocaleString("en-US"));
+
+    //set total_booster2 label
+    $("#total_booster2").text(booster2.toLocaleString("en-US"));
 
     return { vac_pie: [vaccinated, unvacinated], booster1_pie: [booster1, no_booster1], booster2_pie: [booster2, no_booster2] };
 }
@@ -391,6 +400,10 @@ vac_button.addEventListener('click', () => {
         console.log("null vac div");
         return;
     }
+
+    //First make vac-pies take up entire width of viewport
+    $(".vac-pies").toggleClass("active");
+
     vac.classList.toggle('hide');
     if (vacPie === null) {
         chartItV();

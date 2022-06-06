@@ -31,53 +31,93 @@ body {
 }
 
 .tests {
-    width: 80vw;
+    width: 65vw;
     position: relative;
 }
 
 .cases {
-    width: 80vw;
+    width: 65vw;
     position: relative;
 }
 
 
 /* VACINATION PIES STYLING*/
 
+.vac_button {
+    max-width: 400px;
+}
+
 .total_vac_label {
     background-color: #5175e0a8;
-    border-radius: 1vh;
+    border-radius: 5px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     font-size: 20px;
     font-style: bold;
     color: #fff;
-    width: 40vw;
-    margin: 50px auto;
-    padding: 5px 0;
+    margin: 0 auto;
+    padding: 5px 5px;
+    position: relative;
+    top: 10px;
+}
+
+.total_booster1_label {
+    background-color: #5175e0a8;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    font-size: 20px;
+    font-style: bold;
+    color: #fff;
+    margin: 0 auto;
+    padding: 5px 5px;
+    position: relative;
+    top: 10px;
+}
+
+.total_booster2_label {
+    background-color: #5175e0a8;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    font-size: 20px;
+    font-style: bold;
+    color: #fff;
+    margin: 0 auto;
+    padding: 5px 5px;
+    position: relative;
+    top: 10px;
 }
 
 
 .vac {
-    display: block;
-    width: 30vw;
+    display: inline-block;
+    width: 400px;
+    height: 30vh;
     position: relative;
+    margin-top: 5vh;
 }
 
 .booster-1 {
-    display: block;
-    width: 30vw;
+    display: inline-block;
+    width: 400px;
+    height: 30vh;
+
     position: relative;
 }
 
 .booster-2 {
-    display: block;
-    width: 30vw;
+    display: inline-block;
+    width: 400px;
+    height: 30vh;
     position: relative;
 }
 
 .vac-pies {
-    display: flex;
+    display: inline-block;
+    float: left;
 }
 
+.active {
+    width: 100vw;
+}
 
 
 /* used for pop-up */
