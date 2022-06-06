@@ -1,3 +1,4 @@
+
 console.log("hello, this is app.js")
 
 
@@ -147,7 +148,7 @@ async function chartItV() {
             });
 
             //Create Booster1 Pie Diagram
-            const ctx_b1 = $("#booster_1")[0].getContext("2d");
+            const ctx_b1 = document.getElementById("booster-1").getContext("2d");
             button1_pie = new Chart(ctx_b1, {
                 type: "pie",
                 data: {
@@ -163,8 +164,8 @@ async function chartItV() {
             });
 
             //Create Booster2 Pie Diagram
-            const ctx_b2 = $("#booster_2")[0].getContext("2d");
-            button2_pie = newChart(ctx_b2, {
+            const ctx_b2 = document.getElementById("booster-2").getContext("2d");
+            button2_pie = new Chart(ctx_b2, {
                 type: "pie",
                 data: {
                     labels: ["with booster-2", "without booster-2"],
@@ -354,8 +355,14 @@ const vac_button = document.querySelector('#vac-button');
 const vac = document.querySelector('.vac');
 vac.classList.toggle('hide');
 $(".total_vac_label").toggleClass('hide');
-$("booster-1").toggleClass("hdie");
-$("total_booster1_label").toggleClass("hide");
+
+//Hide Booster2 Pie
+$(".booster-1").toggleClass("hide");
+$(".total_booster1_label").toggleClass("hide");
+
+//Hide Booster 2 Pie
+$(".booster-2").toggleClass("hide");
+$(".total_booster2_label").toggleClass("hide");
 
 /* TESTS POP-UP EVENT LISTENER */
 test_button.addEventListener('click', () => {
@@ -389,5 +396,13 @@ vac_button.addEventListener('click', () => {
         chartItV();
     }
     $(".total_vac_label").toggleClass('hide');
+
+    //Hide Booster2 Pie
+    $(".booster-1").toggleClass("hide");
+    $(".total_booster1_label").toggleClass("hide");
+
+    //Hide Booster 2 Pie
+    $(".booster-2").toggleClass("hide");
+    $(".total_booster2_label").toggleClass("hide");
 })
 
