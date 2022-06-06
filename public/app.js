@@ -57,6 +57,8 @@ var totalCS = 0;
 var caseChart = null;
 var testChart = null;
 var vacPie = null;
+var booster1_pie = null;
+var booster2_pie = null
 
 /* renders all case info */
 async function chartItC() {
@@ -136,14 +138,45 @@ async function chartItV() {
                     labels: ['vaccinated', 'unvaccinated'],
                     datasets: [{
                         label: 'Vaccinated Population of Ontario',
-                        data: data,
-                        backgroundColor: ['#1c42aab2', '#8792B1'],
+                        data: data.vac_pie,
+                        backgroundColor: ["#5175e0a8", "#dde2f1"],
+                        borderWidth: 1
+                    }]
+                },
+                hoverOffset: 4
+            });
+
+            //Create Booster1 Pie Diagram
+            const ctx_b1 = $("#booster_1")[0].getContext("2d");
+            button1_pie = new Chart(ctx_b1, {
+                type: "pie",
+                data: {
+                    labels: ['with booster-1', "without booster-1"],
+                    datasets: [{
+                        label: 'Population of Ontario with Booster-1',
+                        data: data.booster1_pie,
+                        backgroundColor: ["#5175e0a8", "#dde2f1"],
+                        borderWidth: 1
+                    }]
+                },
+                hoverOffset: 4
+            });
+
+            //Create Booster2 Pie Diagram
+            const ctx_b2 = $("#booster_2")[0].getContext("2d");
+            button2_pie = newChart(ctx_b2, {
+                type: "pie",
+                data: {
+                    labels: ["with booster-2", "without booster-2"],
+                    datasets: [{
+                        label: 'Population of Ontario with Booster-2',
+                        data: data.booster2_pie,
+                        backgroundColor: ["#5175e0a8", "#dde2f1"],
                         borderWidth: 1
                     }]
                 },
                 hoverOffset: 4
             })
-
         });
 }
 
@@ -191,7 +224,7 @@ async function getVacData() {
     //set total_vacinated label
     $("#total_vac").text(vaccinated.toLocaleString("en-US"));
 
-    return [vaccinated, unvacinated];
+    return { vac_pie: [vaccinated, unvacinated], booster1_pie: [booster1, no_booster1], booster2_pie: [booster2, no_booster2] };
 }
 
 async function getTestData() {
