@@ -375,6 +375,7 @@ $(".total_booster2_label").toggleClass("hide");
 
 /* TESTS POP-UP EVENT LISTENER */
 test_button.addEventListener('click', () => {
+    test_button.classList.toggle("button_active");
     console.log("Test button hit");
     if (test == null) return;
     test.classList.toggle('hide');
@@ -385,6 +386,7 @@ test_button.addEventListener('click', () => {
 
 /* CASES POP-UP EVENT LISTENER */
 cases_button.addEventListener('click', () => {
+    cases_button.classList.toggle("button_active");
     console.log("Cases menu button hit!!!");
     if (cases === null) return null;
     cases.classList.toggle('hide');
@@ -395,6 +397,7 @@ cases_button.addEventListener('click', () => {
 
 /* Vac POP-UP EVENT LISTENER */
 vac_button.addEventListener('click', () => {
+    vac_button.classList.toggle("button_active");
     console.log('vac button hit!!!');
     if (vac === null) {
         console.log("null vac div");
