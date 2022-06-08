@@ -165,6 +165,7 @@ nav {
 
 #logo:hover {
     background-color: #3a5197a8;
+    border-radius: 5px;
 }
 
 .nav-links {

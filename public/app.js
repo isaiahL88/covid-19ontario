@@ -101,7 +101,7 @@ async function chartItT() {
         data: {
             labels: data.dateAdmin,
             datasets: [{
-                label: 'Daily COVID-19 Vaccine Tests',
+                label: 'Daily COVID-19 Tests',
                 data: data.aTest,
                 backgroundColor: '#5175e0a8',
                 borderColor: '#5175e0a8',
