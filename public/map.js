@@ -77,7 +77,7 @@ async function mapIt(city) {
 //dropdown script
 $(document).ready(function () {
     //close dropdown
-    $(".default_option").click(function () {
+    $(".dropdown").click(function () {
         $(".dropdown ul").toggleClass("active");
     })
 

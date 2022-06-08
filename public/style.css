@@ -287,6 +287,16 @@ nav {
         margin: 5px;
         transition: all 0.3s ease;
     }
+
+    /* Graph Styling */
+
+    .cases {
+        width: 95vw;
+    }
+
+    .tests {
+        width: 95vw;
+    }
 }
 
 ::-webkit-scrollbar {
