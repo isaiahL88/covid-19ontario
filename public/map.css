@@ -52,7 +52,7 @@ body {
 
 .wrapper .search_box .dropdown .default_option {
     text-transform: uppercase;
-    padding: 13px 15px;
+    padding: 20px 15px;
 }
 
 .wrapper .search_box .dropdown ul {
@@ -92,7 +92,8 @@ body {
 .wrapper .search_box .dropdown:before {
     content: "";
     position: absolute;
-    top: 18px;
+    top: 50%;
+    transform: translate(0, -50%);
     right: 20px;
     border: 8px solid;
     border-color: #5078ef transparent transparent transparent;
