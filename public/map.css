@@ -43,7 +43,7 @@ body {
 }
 
 .wrapper .search_box .dropdown {
-    width: 150px;
+    max-width: 250px;
     border-right: 2px solid #dde2f1;
     color: #000000;
     position: relative;
@@ -52,7 +52,7 @@ body {
 
 .wrapper .search_box .dropdown .default_option {
     text-transform: uppercase;
-    padding: 20px 15px;
+    padding: 20px 40px;
 }
 
 .wrapper .search_box .dropdown ul {
@@ -182,14 +182,14 @@ body {
 /* MOBILE VIEW */
 @media screen and (max-width:700px) {
     .wrapper .search_box {
-        width: 350px;
+        width: 60vw;
     }
 
     .wrapper .search_box .dropdown {
-        width: 100px;
+        max-width: 40vw;
     }
 
     .wrapper .search_box .search_field {
-        width: 200px;
+        width: 40vw;
     }
 }
