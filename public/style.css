@@ -32,14 +32,21 @@ body {
 
 .tests {
     width: 65vw;
+    margin: 0 auto;
     position: relative;
 }
 
 .cases {
     width: 65vw;
+    margin: 0 auto;
     position: relative;
 }
 
+.hosp {
+    width: 65vw;
+    margin: 0 auto;
+    position: relative;
+}
 
 /* VACINATION PIES STYLING*/
 
@@ -296,6 +303,10 @@ nav {
     }
 
     .tests {
+        width: 95vw;
+    }
+
+    .hosp {
         width: 95vw;
     }
 }

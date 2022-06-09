@@ -55,11 +55,14 @@ $(document).ready(function () {
 var totalVacc = 0;
 var totalCS = 0;
 
+//All Chartjs Charts
+//declared null so event listener knows if a chart has already been rendered
 var caseChart = null;
 var testChart = null;
 var vacPie = null;
 var booster1_pie = null;
-var booster2_pie = null
+var booster2_pie = null;
+var hosp_bar = null;
 
 /* renders all case info */
 async function chartItC() {
@@ -96,6 +99,40 @@ async function chartItC() {
 async function chartItT() {
     const data = await getTestData();
     const ctx = document.getElementById('myChartT').getContext('2d');
+
+    //Animation code
+    const totalDuration = 10000;
+    const delayBetweenPoints = totalDuration / data.length;
+    const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
+    const animation = {
+        x: {
+            type: 'number',
+            easing: 'linear',
+            duration: delayBetweenPoints,
+            from: NaN, // the point is initially skipped
+            delay(ctx) {
+                if (ctx.type !== 'data' || ctx.xStarted) {
+                    return 0;
+                }
+                ctx.xStarted = true;
+                return ctx.index * delayBetweenPoints;
+            }
+        },
+        y: {
+            type: 'number',
+            easing: 'linear',
+            duration: delayBetweenPoints,
+            from: previousY,
+            delay(ctx) {
+                if (ctx.type !== 'data' || ctx.yStarted) {
+                    return 0;
+                }
+                ctx.yStarted = true;
+                return ctx.index * delayBetweenPoints;
+            }
+        }
+    };
+
     testChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -109,16 +146,12 @@ async function chartItT() {
             }]
         },
         options: {
+            animation,
             scales: {
-                yAxes: [{
-                    ticks: {
-                        callback: function (value, index, values) {
-                            return value;
-                        }
-                    }
-                }]
+                x: {
+                    type: 'linear'
+                }
             },
-            responsive: true
         }
     });
 }
@@ -315,19 +348,122 @@ async function getCaseData() {
 
     var cases = [];
     var dateAdmin = [];
+    var total_cases = [];
     var temp;
     const response = await fetch(covidURL);
     const covid = await response.json();
     console.log(covid.data);
+
+    //push all needed case data to repective arrays
     for (var i = 0; i < covid.data.length; i++) {
-        temp = covid.data[i].date;
+        //DAILY CASE DATA
         cases.push(covid.data[i].cases_daily);
-        dateAdmin.push(temp);
+
+        //ACTIVE CASE DATA
+        total_cases.push(covid.data[i].cases);
+
+        //DATE DATA
+        dateAdmin.push(covid.data[i].date);
         // document.getElementById('totalCS').textContent = data.summary[i].cumulative_cases;
     }
+
     return { cases, dateAdmin };
 
 }
+
+//Chart Hosp Data
+async function chartItH() {
+    const data = await getHospData();
+    const ctx = document.getElementById('myChartH').getContext('2d');
+
+    //temp log
+    console.log("HOSPITALIZATION DATA");
+    console.log(data);
+
+    hosp_bar = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: data.dateAdmin,
+            datasets: [{
+                label: 'Hosp Data',
+                data: data.hosp_data,
+                borderColor: "#5175e0a8",
+                backgroundColor: "#5175e0a8"
+            }]
+        },
+        option: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "top"
+                },
+                title: {
+                    display: true,
+                    text: "Daily Hospitalization"
+                }
+            }
+        }
+    })
+}
+
+
+//RETREIVE HOSPITALIZATION DATA
+async function getHospData() {
+    //temp hardcoded chart size
+    var url = getReleventURL(chartSize);
+
+    //fetch data from url
+    const response = await fetch(covidURL);
+    const covid = await response.json();
+    const data = await covid.data;
+
+    var hosp_data = [];
+    var dateAdmin = [];
+
+    for (var i = 0; i < data.length; i++) {
+        //ACTIVE HOSPITALIZTION DATA
+        hosp_data.push(data[i].hospitalizations);
+
+        //DATE DATA
+        dateAdmin.push(covid.data[i].date);
+    }
+
+    return { hosp_data, dateAdmin };
+
+}
+
+//returns a url that can be used to get the last 'chartSize' months of data from opencovid api 
+function getReleventURL(chartSize) {
+    //Get current date using browser
+    const date = new Date();
+    //Adjust Amount of Data in Chart
+    console.log(`day: ${date.getDate()}, month: ${date.getMonth() + 1}`);
+    var day; var month; var year;
+    console.log('THIS IS THE CURRENT DATE ' + date.getMonth());
+    year = date.getFullYear();
+
+    //Day is Hard Coded
+    day = "01";
+
+    //calculate on or after month after chartSize dynamic adjustment
+    if (date.getMonth() < chartSize) {
+        var newMonth = 12 - (chartSize - (date.getMonth() + 1));
+        year--;
+    } else {
+        var newMonth = Math.abs((date.getMonth() + 1 - chartSize) % 12);
+    }
+
+    if (newMonth < 10) {
+        month = "0" + newMonth;
+    } else {
+        month = "" + newMonth;
+    }
+
+    console.log("NEW MONTH: " + month);
+
+    return covidURL = `https://api.opencovid.ca/summary?loc=ON&after=${year}-${month}-${day}`;
+}
+
 function formatMonth(str) {
     var month;
     switch (str.charAt(3) + str.charAt(4)) {
@@ -372,6 +508,9 @@ $(".total_booster1_label").toggleClass("hide");
 //Hide Booster 2 Pie
 $(".booster-2").toggleClass("hide");
 $(".total_booster2_label").toggleClass("hide");
+
+//hide Hosp data
+$(".hosp").toggleClass("hide");
 
 /* TESTS POP-UP EVENT LISTENER */
 test_button.addEventListener('click', () => {
@@ -420,5 +559,16 @@ vac_button.addEventListener('click', () => {
     //Hide Booster 2 Pie
     $(".booster-2").toggleClass("hide");
     $(".total_booster2_label").toggleClass("hide");
+})
+
+//HOSP POP-UP EVENT LISTENER
+$("#hosp_button").click(() => {
+    //make hosp data visibile
+    $(".hosp").toggleClass("hide");
+
+    //check if hosp data needs to rendered for the first time
+    if (hosp_bar === null) {
+        chartItH();
+    }
 })
 
