@@ -63,6 +63,7 @@ var vacPie = null;
 var booster1_pie = null;
 var booster2_pie = null;
 var hosp_bar = null;
+var hosp_bar_daily = null;
 
 /* renders all case info */
 async function chartItC() {
@@ -380,13 +381,44 @@ async function chartItH() {
     console.log("HOSPITALIZATION DATA");
     console.log(data);
 
+    //adjust header
+    $("#hosp_months").text("" + chartSize);
+    //done seperately in case daily and active charts have differnt sizes in the furture
+    $("#hosp_months_daily").text("" + chartSize);
+
     hosp_bar = new Chart(ctx, {
         type: "bar",
         data: {
             labels: data.dateAdmin,
             datasets: [{
-                label: 'Hosp Data',
+                label: 'Active Hospitalizations',
                 data: data.hosp_data,
+                borderColor: "#5175e0a8",
+                backgroundColor: "#5175e0a8"
+            }]
+        },
+        option: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "top"
+                },
+                title: {
+                    display: true,
+                    text: "Active Hospitalization"
+                }
+            }
+        }
+    });
+
+    const ctx2 = document.getElementById('myChartHDaily').getContext('2d');
+    hosp_bar_daily = new Chart(ctx2, {
+        type: "bar",
+        data: {
+            labels: data.dateAdmin,
+            datasets: [{
+                label: 'Daily Hospitalization',
+                data: data.hosp_data_daily,
                 borderColor: "#5175e0a8",
                 backgroundColor: "#5175e0a8"
             }]
@@ -403,7 +435,7 @@ async function chartItH() {
                 }
             }
         }
-    })
+    });
 }
 
 
@@ -419,16 +451,20 @@ async function getHospData() {
 
     var hosp_data = [];
     var dateAdmin = [];
+    var hosp_data_daily = [];
 
     for (var i = 0; i < data.length; i++) {
         //ACTIVE HOSPITALIZTION DATA
         hosp_data.push(data[i].hospitalizations);
 
+        //DAILY HOSPITALIZATION DATA
+        hosp_data_daily.push(data[i].hospitalizations_daily);
+
         //DATE DATA
         dateAdmin.push(covid.data[i].date);
     }
 
-    return { hosp_data, dateAdmin };
+    return { hosp_data, dateAdmin, hosp_data_daily };
 
 }
 
@@ -512,6 +548,9 @@ $(".total_booster2_label").toggleClass("hide");
 //hide Hosp data
 $(".hosp").toggleClass("hide");
 
+//hide Hosp daily data
+$(".hosp_daily").toggleClass("hide");
+
 /* TESTS POP-UP EVENT LISTENER */
 test_button.addEventListener('click', () => {
     test_button.classList.toggle("button_active");
@@ -565,6 +604,7 @@ vac_button.addEventListener('click', () => {
 $("#hosp_button").click(() => {
     //make hosp data visibile
     $(".hosp").toggleClass("hide");
+    $(".hosp_daily").toggleClass("hide");
 
     //check if hosp data needs to rendered for the first time
     if (hosp_bar === null) {
