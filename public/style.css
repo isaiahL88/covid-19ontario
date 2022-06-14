@@ -8,6 +8,10 @@ body {
 
 /* Canvas Graph Styling */
 
+h1 {
+    color: rgba(66, 65, 65, 0.781);
+}
+
 .chartV-container {
     align-items: center;
 }
@@ -42,7 +46,8 @@ body {
     position: relative;
 }
 
-.hosp {
+.hosp,
+.hosp_daily {
     width: 65vw;
     margin: 0 auto;
     position: relative;
@@ -307,6 +312,10 @@ nav {
     }
 
     .hosp {
+        width: 95vw;
+    }
+
+    .hosp_daily {
         width: 95vw;
     }
 }

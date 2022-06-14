@@ -64,6 +64,7 @@ var booster1_pie = null;
 var booster2_pie = null;
 var hosp_bar = null;
 var hosp_bar_daily = null;
+var icu_bar = null;
 
 /* renders all case info */
 async function chartItC() {
@@ -385,6 +386,7 @@ async function chartItH() {
     $("#hosp_months").text("" + chartSize);
     //done seperately in case daily and active charts have differnt sizes in the furture
     $("#hosp_months_daily").text("" + chartSize);
+    $("#icu_months").text("" + chartSize);
 
     hosp_bar = new Chart(ctx, {
         type: "bar",
@@ -436,6 +438,32 @@ async function chartItH() {
             }
         }
     });
+
+    const ctx3 = document.getElementById("icuChart").getContext("2d");
+    icu_bar = new Chart(ctx3, {
+        type: "bar",
+        data: {
+            labels: data.dateAdmin,
+            datasets: [{
+                label: 'Active ICU Patients',
+                data: data.icu,
+                borderColor: "#5175e0a8",
+                backgroundColor: "#5175e0a8"
+            }]
+        },
+        option: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "top"
+                },
+                title: {
+                    display: true,
+                    text: "Daily Hospitalization"
+                }
+            }
+        }
+    })
 }
 
 
@@ -452,6 +480,7 @@ async function getHospData() {
     var hosp_data = [];
     var dateAdmin = [];
     var hosp_data_daily = [];
+    var icu = [];
 
     for (var i = 0; i < data.length; i++) {
         //ACTIVE HOSPITALIZTION DATA
@@ -461,10 +490,13 @@ async function getHospData() {
         hosp_data_daily.push(data[i].hospitalizations_daily);
 
         //DATE DATA
-        dateAdmin.push(covid.data[i].date);
+        dateAdmin.push(data[i].date);
+
+        //ICU DATA
+        icu.push(data[i].icu);
     }
 
-    return { hosp_data, dateAdmin, hosp_data_daily };
+    return { hosp_data, dateAdmin, hosp_data_daily, icu };
 
 }
 
@@ -533,8 +565,7 @@ cases.classList.toggle('hide');
 
 /* select and hide vaccinations menu */
 const vac_button = document.querySelector('#vac-button');
-const vac = document.querySelector('.vac');
-vac.classList.toggle('hide');
+$(".vac").toggleClass("hide");
 $(".total_vac_label").toggleClass('hide');
 
 //Hide Booster2 Pie
@@ -550,6 +581,9 @@ $(".hosp").toggleClass("hide");
 
 //hide Hosp daily data
 $(".hosp_daily").toggleClass("hide");
+
+//hide icu
+$(".icu").toggleClass("hide");
 
 /* TESTS POP-UP EVENT LISTENER */
 test_button.addEventListener('click', () => {
@@ -576,19 +610,18 @@ cases_button.addEventListener('click', () => {
 /* Vac POP-UP EVENT LISTENER */
 vac_button.addEventListener('click', () => {
     vac_button.classList.toggle("button_active");
-    console.log('vac button hit!!!');
-    if (vac === null) {
-        console.log("null vac div");
-        return;
-    }
 
     //First make vac-pies take up entire width of viewport
     $(".vac-pies").toggleClass("active");
 
-    vac.classList.toggle('hide');
     if (vacPie === null) {
         chartItV();
+
+        setTimeout(() => {
+
+        }, 1000);
     }
+    $(".vac").toggleClass("hide");
     $(".total_vac_label").toggleClass('hide');
 
     //Hide Booster2 Pie
@@ -605,6 +638,7 @@ $("#hosp_button").click(() => {
     //make hosp data visibile
     $(".hosp").toggleClass("hide");
     $(".hosp_daily").toggleClass("hide");
+    $(".icu").toggleClass("hide");
 
     //check if hosp data needs to rendered for the first time
     if (hosp_bar === null) {

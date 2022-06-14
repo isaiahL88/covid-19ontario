@@ -8,6 +8,10 @@ body {
 
 #vac_logo {}
 
+h1 {
+    text-align: center;
+}
+
 .centers {
     display: inline-block;
 }
@@ -214,4 +218,5 @@ body {
     .wrapper .search_box .search_field {
         width: 100%;
     }
+
 }

@@ -45,8 +45,9 @@ async function getLocations() {
     $(".dropdown ul li").click(function () {
         var text = $(this).text();
         $(".default_option").text(text);
-        $(".dropdown ul").removeClass("active");
         mapIt($(this).text());
+        $("#cities").toggleClass("active");
+        console.log("here");
     })
 
 }
@@ -63,8 +64,11 @@ async function mapIt(city) {
             referenceEntry = entry;
             console.log("found a centre");
             L.marker(
-                L.latLng(entry.latitude, entry.longitude)
-            ).addTo(map);
+                L.latLng(entry.latitude, entry.longitude),
+                {
+                    title: entry.location_name
+                }
+            ).addTo(map).bindPopup(`${entry.location_name}<br/>${entry.address}`);
             console.log(`Added entry ${entry.location_name} into map`);
         }
     });
@@ -102,6 +106,7 @@ $(document).ready(function () {
         if (!found) {
             alert(`Unable to find city with name ${searchCity}`);
         }
+        $(".dropdown ul").removeClass("active");
     });
 
     $(".input").keyup(function (event) {
