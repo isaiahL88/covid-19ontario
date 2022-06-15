@@ -82,7 +82,7 @@ async function chartItC() {
         data: {
             labels: data.dateAdmin,
             datasets: [{
-                label: 'Daily cases in Ontario',
+                label: 'Daily Cases in Ontario',
                 data: data.cases,
                 backgroundColor: '#5175e0a8',
                 borderColor: '#5175e0a8',

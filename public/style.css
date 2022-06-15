@@ -12,6 +12,10 @@ h1 {
     color: rgba(66, 65, 65, 0.781);
 }
 
+#main-label {
+    text-align: center;
+}
+
 .chartV-container {
     align-items: center;
 }
@@ -164,8 +168,10 @@ button:hover {
 
 nav {
     display: flex;
+    border-radius: 2px;
     justify-content: space-around;
     background-color: #5175e0a8;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #logo a {
