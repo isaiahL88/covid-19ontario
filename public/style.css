@@ -46,6 +46,12 @@ h1 {
     position: relative;
 }
 
+.death_cumulative {
+    width: 65vw;
+    margin: 0 auto;
+    position: relative;
+}
+
 .hosp,
 .hosp_daily {
     width: 65vw;
@@ -316,6 +322,10 @@ nav {
     }
 
     .hosp_daily {
+        width: 95vw;
+    }
+
+    .death_cumulative {
         width: 95vw;
     }
 }

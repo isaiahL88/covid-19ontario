@@ -65,6 +65,7 @@ var booster2_pie = null;
 var hosp_bar = null;
 var hosp_bar_daily = null;
 var icu_bar = null;
+var death_cumulative_bar = null;
 
 /* renders all case info */
 async function chartItC() {
@@ -497,7 +498,60 @@ async function getHospData() {
     }
 
     return { hosp_data, dateAdmin, hosp_data_daily, icu };
+}
 
+//Chart Death Data
+async function chartItD() {
+    const data = await getDeathData();
+    const ctx = document.getElementById("cumulative_death_chart").getContext("2d");
+
+    death_cumulative_bar = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: data.dateAdmin,
+            datasets: [{
+                label: 'Cumulative Deaths',
+                data: data.deaths,
+                borderColor: "#5175e0a8",
+                backgroundColor: "#5175e0a8"
+            }]
+        },
+        option: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "top"
+                },
+                title: {
+                    display: true,
+                    text: "Cumulative Deaths"
+                }
+            }
+        }
+    });
+
+    console.log(data);
+}
+
+//Retreive Death data
+async function getDeathData() {
+    //temp hardcoded chart size
+    var url = getReleventURL(chartSize);
+
+    //fetch data from url
+    const response = await fetch(covidURL);
+    const covid = await response.json();
+    const data = await covid.data;
+
+    var dateAdmin = [];
+    var deaths = [];
+
+    for (var i = 0; i < data.length; i++) {
+        deaths.push(data[i].deaths);
+
+        dateAdmin.push(data[i].date);
+    }
+    return { deaths, dateAdmin };
 }
 
 //returns a url that can be used to get the last 'chartSize' months of data from opencovid api 
@@ -552,6 +606,7 @@ function formatMonth(str) {
 }
 
 /* INTITIAL MENU POP-UP CODE */
+$(".months").text("" + chartSize);
 
 /* select and hide test menu */
 const test_button = document.querySelector("#test-button");
@@ -566,6 +621,7 @@ cases.classList.toggle('hide');
 /* select and hide vaccinations menu */
 const vac_button = document.querySelector('#vac-button');
 $(".vac").toggleClass("hide");
+$("#vac-pies-label").toggleClass("hide");
 $(".total_vac_label").toggleClass('hide');
 
 //Hide Booster2 Pie
@@ -584,6 +640,9 @@ $(".hosp_daily").toggleClass("hide");
 
 //hide icu
 $(".icu").toggleClass("hide");
+
+//hide death chart
+$(".death_cumulative").toggleClass("hide");
 
 /* TESTS POP-UP EVENT LISTENER */
 test_button.addEventListener('click', () => {
@@ -611,6 +670,7 @@ cases_button.addEventListener('click', () => {
 vac_button.addEventListener('click', () => {
     vac_button.classList.toggle("button_active");
 
+    $("#vac-pies-label").toggleClass("hide");
     //First make vac-pies take up entire width of viewport
     $(".vac-pies").toggleClass("active");
 
@@ -643,6 +703,15 @@ $("#hosp_button").click(() => {
     //check if hosp data needs to rendered for the first time
     if (hosp_bar === null) {
         chartItH();
+    }
+});
+
+//Death Cumulative POP-UP EVENT LISTENER
+$("#deaths_chart_button").click(() => {
+    $(".death_cumulative").toggleClass("hide");
+
+    if (death_cumulative_bar === null) {
+        chartItD();
     }
 })
 

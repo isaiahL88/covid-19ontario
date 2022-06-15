@@ -38,6 +38,7 @@
                 Tests
             </button>
             <div class="tests">
+                <h1>Last <span class="months"></span> Months of Covid-19 Tests Taken Daily</h1>
                 <canvas id='myChartT'></canvas>
             </div>
         </div>
@@ -46,6 +47,7 @@
                 Cases
             </button>
             <div class="cases">
+                <h1>Last <span class="months"></span> Months of Daily Reported Covid-19 Cases</h1>
                 <canvas id='myChartC'></canvas>
             </div>
         </div>
@@ -54,6 +56,7 @@
                 Vacinations
             </button>
             <div class="vac-pies">
+                <h1 id="vac-pies-label">Percentage of Population with Different Vaccination Statuses</h1>
                 <div class="vac">
                     <canvas id='myPieV'></canvas>
                     <label class="total_vac_label">Total Population Fully Vacinated: <span
@@ -86,6 +89,13 @@
             <div class="icu">
                 <h1>Last <span id="icu_months"></span> Month/s of Active ICU Patients</h1>
                 <canvas id="icuChart"></canvas>
+            </div>
+        </div>
+        <div class="graph">
+            <button id="deaths_chart_button">Deaths</button>
+            <div class="death_cumulative">
+                <h1>Last <span class="months"></span> Month/s of Cumulative Deaths</h1>
+                <canvas id="cumulative_death_chart"></canvas>
             </div>
         </div>
         <br />
