@@ -98,6 +98,37 @@ async function chartItC() {
     });
 }
 
+//Used to Retreive Case Data
+async function getCaseData() {
+
+    //Get a url to fetch data based on how big the viewport is
+    var covidURL = getReleventURL();
+
+    var cases = [];
+    var dateAdmin = [];
+    var total_cases = [];
+
+    const response = await fetch(covidURL);
+    const covid = await response.json();
+    const data = await covid.data;
+
+    //push all needed case data to repective arrays
+    for (var i = 0; i < covid.data.length; i++) {
+        //DAILY CASE DATA
+        cases.push(data[i].cases_daily);
+
+        //ACTIVE CASE DATA
+        //NOT USED
+        total_cases.push(data[i].cases);
+
+        //DATE DATA
+        dateAdmin.push(data[i].date);
+    }
+
+    return { cases, dateAdmin };
+}
+
+
 /* renders all test data */
 async function chartItT() {
     const data = await getTestData();
@@ -159,6 +190,29 @@ async function chartItT() {
     });
 }
 
+//Used to retrieve Test data
+async function getTestData() {
+    //Get a url to fetch data based on how big the viewport is
+    var covidURL = getReleventURL();
+
+    //Arrays to hold data
+    var aTest = [];
+    var dateAdmin = [];
+
+    //simple await statements for fetching data from covidURL
+    const response = await fetch(covidURL);
+    const tests = await response.json();
+    const data = await tests.data;
+
+    //Go through each entry in data and push them to respective arrays
+    for (var i = 0; i < tests.data.length; i++) {
+        aTest.push(data[i].tests_completed_daily);
+        dateAdmin.push(data[i].date);
+    }
+
+    return { aTest, dateAdmin };
+}
+
 /* render vaccination data */
 const trackURL = "https://murmuring-reef-58036.herokuapp.com/https://api.covid19tracker.ca/summary/split";
 const provURL = "https://murmuring-reef-58036.herokuapp.com/https://api.covid19tracker.ca/provinces"
@@ -218,8 +272,6 @@ async function chartItV() {
 }
 
 async function getVacData() {
-    // const response = await fetch(trackURL);
-    // const dataAll = await response.json();
     var dataAll = null;
     var dataON;
     fetch(trackURL)
@@ -273,122 +325,47 @@ async function getVacData() {
     return { vac_pie: [vaccinated, unvacinated], booster1_pie: [booster1, no_booster1], booster2_pie: [booster2, no_booster2] };
 }
 
-async function getTestData() {
-    //Get current date using browser
-    const date = new Date();
-    //Adjust Amount of Data in Chart
-    console.log(`day: ${date.getDate()}, month: ${date.getMonth() + 1}`);
-    var day; var month; var year;
-    console.log('THIS IS THE CURRENT DATE ' + date.getMonth());
-    year = date.getFullYear();
+//RETREIVE HOSPITALIZATION DATA
+async function getHospData() {
+    //Get a url to fetch data based on how big the viewport is
+    var url = getReleventURL();
 
-    //Day is Hard Coded
-    day = "01";
-
-    //calculate on or after month after chartSize dynamic adjustment
-    if (date.getMonth() < chartSize) {
-        var newMonth = 12 - (chartSize - (date.getMonth() + 1));
-        year--;
-    } else {
-        var newMonth = Math.abs((date.getMonth() + 1 - chartSize) % 12);
-    }
-
-    if (newMonth < 10) {
-        month = "0" + newMonth;
-    } else {
-        month = "" + newMonth;
-    }
-
-    console.log("NEW MONTH: " + month);
-
-    var covidURL = `https://api.opencovid.ca/summary?loc=ON&after=${year}-${month}-${day}`;
-    console.log("FETCHING FROM URL: " + covidURL);
-
-    var aTest = [];
-    var dateAdmin = [];
-    var temp;
-    const response = await fetch(covidURL);
-    const tests = await response.json();
-    for (var i = 0; i < tests.data.length; i++) {
-        temp = tests.data[i].date;
-        aTest.push(tests.data[i].tests_completed_daily);
-        dateAdmin.push(temp);
-        // document.getElementById('totalFV').textContent = data.summary[i].cumulative_cvaccine;
-    }
-    return { aTest, dateAdmin };
-}
-
-async function getCaseData() {
-    //Get current date using browser
-    const date = new Date();
-    //Adjust Amount of Data in Chart
-    console.log(`day: ${date.getDate()}, month: ${date.getMonth() + 1}`);
-    var day; var month; var year;
-    console.log('THIS IS THE CURRENT DATE ' + date.getMonth());
-    year = date.getFullYear();
-
-    //Day is Hard Coded
-    day = "01";
-
-    //calculate on or after month after chartSize dynamic adjustment
-    if (date.getMonth() < chartSize) {
-        var newMonth = 12 - (chartSize - (date.getMonth() + 1));
-        year--;
-    } else {
-        var newMonth = Math.abs((date.getMonth() + 1 - chartSize) % 12);
-    }
-
-    if (newMonth < 10) {
-        month = "0" + newMonth;
-    } else {
-        month = "" + newMonth;
-    }
-
-    console.log("NEW MONTH: " + month);
-
-    var covidURL = `https://api.opencovid.ca/summary?loc=ON&after=${year}-${month}-${day}`;
-    console.log("FETCHING FROM URL: " + covidURL);
-
-    var cases = [];
-    var dateAdmin = [];
-    var total_cases = [];
-    var temp;
-    const response = await fetch(covidURL);
+    //fetch data from url
+    const response = await fetch(url);
     const covid = await response.json();
-    console.log(covid.data);
+    const data = await covid.data;
 
-    //push all needed case data to repective arrays
-    for (var i = 0; i < covid.data.length; i++) {
-        //DAILY CASE DATA
-        cases.push(covid.data[i].cases_daily);
+    //arrays to hold data
+    var hosp_data = [];
+    var dateAdmin = [];
+    var hosp_data_daily = [];
+    var icu = [];
 
-        //ACTIVE CASE DATA
-        total_cases.push(covid.data[i].cases);
+    //GO through each entry in data and push to respective arrays
+    for (var i = 0; i < data.length; i++) {
+        //ACTIVE HOSPITALIZTION DATA
+        hosp_data.push(data[i].hospitalizations);
+
+        //DAILY HOSPITALIZATION DATA
+        hosp_data_daily.push(data[i].hospitalizations_daily);
 
         //DATE DATA
-        dateAdmin.push(covid.data[i].date);
-        // document.getElementById('totalCS').textContent = data.summary[i].cumulative_cases;
+        dateAdmin.push(data[i].date);
+
+        //ICU DATA
+        icu.push(data[i].icu);
     }
 
-    return { cases, dateAdmin };
-
+    return { hosp_data, dateAdmin, hosp_data_daily, icu };
 }
 
 //Chart Hosp Data
 async function chartItH() {
+    //wait for data
     const data = await getHospData();
     const ctx = document.getElementById('myChartH').getContext('2d');
 
-    //temp log
-    console.log("HOSPITALIZATION DATA");
-    console.log(data);
-
-    //adjust header
-    $("#hosp_months").text("" + chartSize);
-    //done seperately in case daily and active charts have differnt sizes in the furture
-    $("#hosp_months_daily").text("" + chartSize);
-    $("#icu_months").text("" + chartSize);
-
+    //Hospitilization bar chart
     hosp_bar = new Chart(ctx, {
         type: "bar",
         data: {
@@ -414,6 +391,7 @@ async function chartItH() {
         }
     });
 
+    //Daily Hospitalization bar chart
     const ctx2 = document.getElementById('myChartHDaily').getContext('2d');
     hosp_bar_daily = new Chart(ctx2, {
         type: "bar",
@@ -440,6 +418,7 @@ async function chartItH() {
         }
     });
 
+    //ICU patients bar chart
     const ctx3 = document.getElementById("icuChart").getContext("2d");
     icu_bar = new Chart(ctx3, {
         type: "bar",
@@ -464,40 +443,7 @@ async function chartItH() {
                 }
             }
         }
-    })
-}
-
-
-//RETREIVE HOSPITALIZATION DATA
-async function getHospData() {
-    //temp hardcoded chart size
-    var url = getReleventURL(chartSize);
-
-    //fetch data from url
-    const response = await fetch(covidURL);
-    const covid = await response.json();
-    const data = await covid.data;
-
-    var hosp_data = [];
-    var dateAdmin = [];
-    var hosp_data_daily = [];
-    var icu = [];
-
-    for (var i = 0; i < data.length; i++) {
-        //ACTIVE HOSPITALIZTION DATA
-        hosp_data.push(data[i].hospitalizations);
-
-        //DAILY HOSPITALIZATION DATA
-        hosp_data_daily.push(data[i].hospitalizations_daily);
-
-        //DATE DATA
-        dateAdmin.push(data[i].date);
-
-        //ICU DATA
-        icu.push(data[i].icu);
-    }
-
-    return { hosp_data, dateAdmin, hosp_data_daily, icu };
+    });
 }
 
 //Chart Death Data
@@ -536,10 +482,10 @@ async function chartItD() {
 //Retreive Death data
 async function getDeathData() {
     //temp hardcoded chart size
-    var url = getReleventURL(chartSize);
+    var url = getReleventURL();
 
     //fetch data from url
-    const response = await fetch(covidURL);
+    const response = await fetch(url);
     const covid = await response.json();
     const data = await covid.data;
 
@@ -555,13 +501,13 @@ async function getDeathData() {
 }
 
 //returns a url that can be used to get the last 'chartSize' months of data from opencovid api 
-function getReleventURL(chartSize) {
+function getReleventURL() {
     //Get current date using browser
     const date = new Date();
-    //Adjust Amount of Data in Chart
-    console.log(`day: ${date.getDate()}, month: ${date.getMonth() + 1}`);
+
+    //to hold on/after date values for url
     var day; var month; var year;
-    console.log('THIS IS THE CURRENT DATE ' + date.getMonth());
+
     year = date.getFullYear();
 
     //Day is Hard Coded
@@ -575,37 +521,36 @@ function getReleventURL(chartSize) {
         var newMonth = Math.abs((date.getMonth() + 1 - chartSize) % 12);
     }
 
-    if (newMonth < 10) {
-        month = "0" + newMonth;
+    month = formatDate(newMonth);
+
+    //Used as a refernce to see what is the last day in the first month we will collect data from
+    //so we know what day to start collecting from
+    var refDate = new Date(year, newMonth + 1, 0);
+
+    //if the first month of data doesn't have as many days as the current month
+    if (refDate < date.getDay()) {
+
+        //esle the first month of data must have as many days as the current month
     } else {
-        month = "" + newMonth;
+        day = formatDate(date.getDay());
     }
 
-    console.log("NEW MONTH: " + month);
-
-    return covidURL = `https://api.opencovid.ca/summary?loc=ON&after=${year}-${month}-${day}`;
+    return `https://api.opencovid.ca/summary?loc=ON&after=${year}-${month}-${day}`;
 }
 
-function formatMonth(str) {
-    var month;
-    switch (str.charAt(3) + str.charAt(4)) {
-        case "01": month = "Jan"; break;
-        case "02": month = "Feb"; break;
-        case "03": month = "Mar"; break;
-        case "04": month = "April"; break;
-        case "05": month = "May"; break;
-        case "06": month = "June"; break;
-        case "07": month = "July"; break;
-        case "08": month = "Aug"; break;
-        case "09": month = "Sept"; break;
-        case "10": month = "Oct"; break;
-        case "11": month = "Nov"; break;
-        case "12": month = "Dec"; break;
+//return a day/month as a string with added 0 if it is less then 10
+function formatDate(i) {
+    if (i >= 10) {
+        return "" + i
+    } else {
+        return "0" + i;
     }
-    return month + " " + str.charAt(0) + str.charAt(1);
 }
+
 
 /* INTITIAL MENU POP-UP CODE */
+
+//add amount of months of data being visualized
 $(".months").text("" + chartSize);
 
 /* select and hide test menu */
