@@ -7,16 +7,22 @@ var chartSize = 6;
 
 function smallDisplay() {
     chartSize = 1;
+    //add amount of months of data being visualized
+    $(".months").text("" + chartSize);
     console.log("SMALL DISPLAY");
 }
 
 function medDisplay() {
     charSize = 2;
+    //add amount of months of data being visualized
+    $(".months").text("" + chartSize);
     console.log("MEDIUM DISPLAY");
 }
 
 function bigDispaly() {
     chartSize = 6;
+    //add amount of months of data being visualized
+    $(".months").text("" + chartSize);
     console.log("BIG DISPLAY");
 }
 
@@ -512,7 +518,7 @@ function getReleventURL() {
 
     //Day is Hard Coded
     day = "01";
-
+    console.log("month: " + date.getMonth())
     //calculate on or after month after chartSize dynamic adjustment
     if (date.getMonth() < chartSize) {
         var newMonth = 12 - (chartSize - (date.getMonth() + 1));
@@ -528,11 +534,12 @@ function getReleventURL() {
     var refDate = new Date(year, newMonth + 1, 0);
 
     //if the first month of data doesn't have as many days as the current month
-    if (refDate < date.getDay()) {
-
-        //esle the first month of data must have as many days as the current month
+    if (refDate.getDate() < date.getDate()) {
+        day = formatDate(refDate.getDate());
+        //else the first month of data must have as many days as the current month
     } else {
-        day = formatDate(date.getDay());
+
+        day = formatDate(date.getDate());
     }
 
     return `https://api.opencovid.ca/summary?loc=ON&after=${year}-${month}-${day}`;
@@ -565,17 +572,9 @@ cases.classList.toggle('hide');
 
 /* select and hide vaccinations menu */
 const vac_button = document.querySelector('#vac-button');
-$(".vac").toggleClass("hide");
-$("#vac-pies-label").toggleClass("hide");
-$(".total_vac_label").toggleClass('hide');
 
-//Hide Booster2 Pie
-$(".booster-1").toggleClass("hide");
-$(".total_booster1_label").toggleClass("hide");
-
-//Hide Booster 2 Pie
-$(".booster-2").toggleClass("hide");
-$(".total_booster2_label").toggleClass("hide");
+//hide vac data
+$(".vac-pies").toggleClass("hide");
 
 //hide Hosp data
 $(".hosp").toggleClass("hide");
@@ -591,10 +590,12 @@ $(".death_cumulative").toggleClass("hide");
 
 /* TESTS POP-UP EVENT LISTENER */
 test_button.addEventListener('click', () => {
+    //toggle active button stlying
     test_button.classList.toggle("button_active");
-    console.log("Test button hit");
-    if (test == null) return;
+
     test.classList.toggle('hide');
+
+    //check if Tests need to be rendered for first time
     if (testChart === null) {
         chartItT();
     }
@@ -603,9 +604,10 @@ test_button.addEventListener('click', () => {
 /* CASES POP-UP EVENT LISTENER */
 cases_button.addEventListener('click', () => {
     cases_button.classList.toggle("button_active");
-    console.log("Cases menu button hit!!!");
-    if (cases === null) return null;
+
     cases.classList.toggle('hide');
+
+    //check if cases need to be rendered for the first time
     if (caseChart === null) {
         chartItC();
     }
@@ -615,32 +617,23 @@ cases_button.addEventListener('click', () => {
 vac_button.addEventListener('click', () => {
     vac_button.classList.toggle("button_active");
 
-    $("#vac-pies-label").toggleClass("hide");
-    //First make vac-pies take up entire width of viewport
-    $(".vac-pies").toggleClass("active");
-
+    //fix for delay from proxy for vaccination 
+    //doesn't reeally fix the problem
     if (vacPie === null) {
         chartItV();
 
         setTimeout(() => {
-
-        }, 1000);
+        }, 300);
     }
-    $(".vac").toggleClass("hide");
-    $(".total_vac_label").toggleClass('hide');
 
-    //Hide Booster2 Pie
-    $(".booster-1").toggleClass("hide");
-    $(".total_booster1_label").toggleClass("hide");
-
-    //Hide Booster 2 Pie
-    $(".booster-2").toggleClass("hide");
-    $(".total_booster2_label").toggleClass("hide");
+    //toggle active styling for vaccination pies
+    $(".vac-pies").toggleClass("active");
+    $(".vac-pies").toggleClass("hide");
 })
 
 //HOSP POP-UP EVENT LISTENER
 $("#hosp_button").click(() => {
-    //make hosp data visibile
+    //toggle hosp data
     $(".hosp").toggleClass("hide");
     $(".hosp_daily").toggleClass("hide");
     $(".icu").toggleClass("hide");
@@ -653,8 +646,10 @@ $("#hosp_button").click(() => {
 
 //Death Cumulative POP-UP EVENT LISTENER
 $("#deaths_chart_button").click(() => {
+    //toggle chart
     $(".death_cumulative").toggleClass("hide");
 
+    //Check if chart needs to be rendered for the first time
     if (death_cumulative_bar === null) {
         chartItD();
     }
